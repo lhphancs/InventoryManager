@@ -4,7 +4,7 @@ using Plato.Mapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ag2yd.Inventory.Api.Mapper
+namespace Inventory.Api.Mapper
 {
     public class ShelfLocationMapper : MapperBase, IShelfLocationMapper
     {
@@ -19,7 +19,8 @@ namespace Ag2yd.Inventory.Api.Mapper
         {
             foreach (var entity in source)
             {
-                target.Add(await MapAsync<ShelfLocation, ShelfLocationModel>(entity));
+                var model = await MapAsync<ShelfLocation, ShelfLocationModel>(entity);
+                target.Add(model);
             }
         }
     }

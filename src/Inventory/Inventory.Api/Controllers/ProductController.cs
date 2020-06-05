@@ -1,4 +1,4 @@
-﻿using Ag2yd.Inventory.Abstractions.Models;
+﻿using Inventory.Abstraction.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;

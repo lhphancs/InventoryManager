@@ -5,7 +5,7 @@ using Plato.Mapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ag2yd.Inventory.Api.Mapper
+namespace Inventory.Api.Mapper
 {
     public class ProductMapper : MapperBase, IProductMapper
     {
@@ -35,7 +35,8 @@ namespace Ag2yd.Inventory.Api.Mapper
         {
             foreach (var entity in source)
             {
-                target.Add(await MapAsync<Product, ProductModel>(entity));
+                var model = await MapAsync<Product, ProductModel>(entity);
+                target.Add(model);
             }
         }
     }

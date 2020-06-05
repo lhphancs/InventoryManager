@@ -3,7 +3,7 @@ using Inventory.Api.Aggregates.Shelf;
 using Plato.Mapper;
 using System.Collections.Generic;
 
-namespace Ag2yd.Inventory.Api.Mapper
+namespace Inventory.Api.Mapper
 {
     public interface IShelfLocationMapper : IMapperBase,
         IMapperAsync<ShelfLocation, ShelfLocationModel>,
