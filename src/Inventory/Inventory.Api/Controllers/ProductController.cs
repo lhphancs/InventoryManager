@@ -1,6 +1,5 @@
 ﻿using Inventory.Abstraction.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace Ag2yd.Inventory.Api.Controllers
@@ -9,17 +8,10 @@ namespace Ag2yd.Inventory.Api.Controllers
     [Route("api/product")]
     public class ProductController : ControllerBase
     {
-        private readonly ILogger<ProductController> _logger;
-
-        public ProductController(ILogger<ProductController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet]
+        [Route("")]
         public List<ProductModel> Get()
         {
-            
+            return new List<ProductModel>();
         }
     }
 }

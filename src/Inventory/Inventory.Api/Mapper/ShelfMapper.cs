@@ -1,33 +1,26 @@
 ﻿using Inventory.Abstraction.Models;
 using Inventory.Api.Aggregates.Shelf;
-using Plato.Mapper;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace Inventory.Api.Mapper
 {
-    public class ShelfMapper : MapperBase, IShelfMapper
+    public class ShelfMapper
     {
-        private readonly IShelfLocationMapper _shelfLocationMapper;
-        public ShelfMapper(IShelfLocationMapper shelfLocationMapper)
+        public ShelfModel Map(Shelf source)
         {
-            _shelfLocationMapper = shelfLocationMapper;
-        }
-        public async Task MapAsync(Shelf source, ShelfModel target, params object[] args)
-        {
-            target.Id = source.Id;
-            target.Name = source.Name;
-            target.Description = source.Description;
-            target.ShelfLocations = await _shelfLocationMapper.MapAsync<IEnumerable<ShelfLocation>, List<ShelfLocationModel>>(source.ShelfLocations);
-    }
-
-        public async Task MapAsync(IEnumerable<Shelf> source, List<ShelfModel> target, params object[] args)
-        {
-            foreach (var entity in source)
+            return new ShelfModel
             {
-                var model = await MapAsync<Shelf, ShelfModel>(entity);
-                target.Add(model);
-            }
+                Id = source.Id,
+                Name = source.Name,
+                Description = source.Description,
+                ShelfLocations = new ShelfLocationMapper().Map(source.ShelfLocations)
+            };
+        }
+
+        public List<ShelfModel> Map(List<Shelf> source)
+        {
+            return source.Select(x => Map(x)).ToList();
         }
     }
 }
