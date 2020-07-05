@@ -5,8 +5,7 @@ using Inventory.Api.Mapper;
 using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using Inventory.Api.Aggregates;
+using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Api.Queries
 {
@@ -20,18 +19,16 @@ namespace Inventory.Api.Queries
         public class ProductGetAllQueryHandler : IRequestHandler<ProductQueryGetAll, List<ProductModel>>
         {
             private readonly IInventoryContext _context;
-            private readonly IProductMapper _productMapper;
 
-            public ProductGetAllQueryHandler(IInventoryContext context, IProductMapper productMapper)
+            public ProductGetAllQueryHandler(IInventoryContext context)
             {
                 _context = context;
-                _productMapper = productMapper;
             }
 
             public async Task<List<ProductModel>> Handle(ProductQueryGetAll request, CancellationToken cancellationToken)
             {
-                var products = _context.Products.ToList();
-                var models = await _productMapper.MapAsync<IEnumerable<Product>, List<ProductModel>>(products);
+                var products = await _context.Products.ToListAsync();
+                var models = new ProductMapper().Map(products);
 
                 return models;
             }

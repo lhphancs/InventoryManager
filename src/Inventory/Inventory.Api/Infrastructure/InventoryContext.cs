@@ -1,16 +1,18 @@
 ﻿using Inventory.Api.Aggregates;
 using Inventory.Api.Infrastructure.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Inventory.Api.Infrastructure
 {
     public class InventoryContext : DbContext, IInventoryContext
     {
-        public InventoryContext(DbContextOptions<InventoryContext> options) : base(options)
-        {
-        }
+        private readonly IConfiguration _configuration;
 
-        public virtual DbSet<Product> Products { get; set; }
+        public InventoryContext(DbContextOptions<InventoryContext> options, IConfiguration configuration) : base(options)
+        {
+            _configuration = configuration;
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -19,7 +21,12 @@ namespace Inventory.Api.Infrastructure
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseMySQL("DataSource=app.db");
+        {
+            var connectionString = _configuration.GetConnectionString("Database");
+            options.UseMySQL(connectionString);
+        }
+
+        public virtual DbSet<Product> Products { get; set; }
     }
 
     

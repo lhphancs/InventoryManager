@@ -20,7 +20,6 @@ namespace Inventory.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDependencies(Configuration);
             services.AddDbContext<InventoryContext>();
         }
 
