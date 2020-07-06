@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4837F20F-27DB-4567-9CFC-4AC59214F251}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Abstraction", "src\Inventory.Abstraction\Inventory.Abstraction.csproj", "{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Api", "src\Inventory.Api\Inventory.Api.csproj", "{1E507A60-747F-44BC-B94D-4465A9C62EEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E507A60-747F-44BC-B94D-4465A9C62EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E507A60-747F-44BC-B94D-4465A9C62EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E507A60-747F-44BC-B94D-4465A9C62EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E507A60-747F-44BC-B94D-4465A9C62EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{59B3DB51-3DA6-4702-ABE3-A9F0A65C7D4A} = {4837F20F-27DB-4567-9CFC-4AC59214F251}
+		{1E507A60-747F-44BC-B94D-4465A9C62EEE} = {4837F20F-27DB-4567-9CFC-4AC59214F251}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02694A06-1C34-4092-AFC2-38737DD5BF89}
+	EndGlobalSection
+EndGlobal
