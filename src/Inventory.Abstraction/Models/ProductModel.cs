@@ -33,7 +33,7 @@ namespace Inventory.Abstraction.Models
         public bool RequiresBubbleWrap { get; set; }
 
         [JsonProperty("shelf_location_id", NullValueHandling = NullValueHandling.Ignore)]
-        public Guid ShelfLocationId { get; set; }
+        public Guid? ShelfLocationId { get; set; }
 
         [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
         public int Quantity { get; set; }

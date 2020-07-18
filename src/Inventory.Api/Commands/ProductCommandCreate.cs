@@ -6,12 +6,13 @@ using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Inventory.Api.Aggregates;
 
 namespace Inventory.Api.Commands
 {
-    public class ProductCommandCreate : IRequest<List<ProductModel>>
+    public class ProductCommandCreate : IRequest
     {
-        public ProductCommandCreate()
+        public ProductCommandCreate(Product product)
         {
 
         }

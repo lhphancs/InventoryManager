@@ -15,7 +15,7 @@ namespace Inventory.Api.Aggregates
 
         public bool RequiresPadding { get; set; }
         public bool RequiresBubbleWrap { get; set; }
-        public Guid ShelfLocationId { get; set; }
+        public Guid? ShelfLocationId { get; set; }
         public int Quantity { get; set; }
 
         public ShelfLocation ShelfLocation { get; set; }
