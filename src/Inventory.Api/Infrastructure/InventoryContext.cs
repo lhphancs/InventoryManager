@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Inventory.Api.Infrastructure
 {
-    public class InventoryContext : DbContext, IInventoryContext
+    public class InventoryContext : DbContext
     {
         private readonly IConfiguration _configuration;
 

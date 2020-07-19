@@ -8,7 +8,7 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.Upc);
+            builder.OwnsOne(x => x.ProductInformation);
             builder.HasOne(x => x.ShelfLocation).WithOne().HasForeignKey<Product>(x => x.ShelfLocationId);
         }
     }

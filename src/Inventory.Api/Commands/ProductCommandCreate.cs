@@ -1,37 +1,36 @@
-﻿using Inventory.Abstraction.Models;
-using System.Collections.Generic;
-using MediatR;
-using Inventory.Api.Mapper;
+﻿using MediatR;
 using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Inventory.Abstraction.Models;
 using Inventory.Api.Aggregates;
 
 namespace Inventory.Api.Commands
 {
     public class ProductCommandCreate : IRequest
     {
-        public ProductCommandCreate(Product product)
+        private readonly ProductInformation model;
+        public ProductCommandCreate(ProductInformation mod)
         {
-
+            model = mod;
         }
 
-        public class ProductCommandCreateHandler : IRequestHandler<ProductCommandCreate, List<ProductModel>>
+        public class ProductCommandCreateHandler : IRequestHandler<ProductCommandCreate>
         {
-            private readonly IInventoryContext _context;
+            private readonly InventoryContext _context;
 
-            public ProductCommandCreateHandler(IInventoryContext context)
+            public ProductCommandCreateHandler(InventoryContext context)
             {
                 _context = context;
             }
 
-            public async Task<List<ProductModel>> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
             {
-                var products = await _context.Products.ToListAsync();
-                var models = new ProductMapper().Map(products);
+                var product = new Product(request.model);
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync(cancellationToken);
 
-                return models;
+                return Unit.Value;
             }
         }
     }

@@ -1,23 +1,57 @@
-﻿using Inventory.Api.Aggregates.Shelf;
+﻿using Inventory.Abstraction.Models;
+using Inventory.Api.Aggregates.Shelf;
 using System;
 
 namespace Inventory.Api.Aggregates
 {
     public class Product
     {
-        public string Upc { get; set; }
-        public string Brand { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string ExpirationLocation { get; set; }
-        public string ImageUrl { get; set; }
-        public int OunceWeight { get; set; }
+        public Product(ProductInformation model)
+        {
+            UpdateProductInformation(model);
 
-        public bool RequiresPadding { get; set; }
-        public bool RequiresBubbleWrap { get; set; }
-        public Guid? ShelfLocationId { get; set; }
-        public int Quantity { get; set; }
+            CreatedDateTime = DateTime.UtcNow;
+            ModifiedDateTime = CreatedDateTime;
+        }
 
-        public ShelfLocation ShelfLocation { get; set; }
+        public void UpdateProductInformation(ProductInformation model)
+        {
+            Upc = model.Upc;
+            Brand = model.Brand;
+            Name = model.Name;
+            Description = model.Description;
+            ExpirationLocation = model.ExpirationLocation;
+            ImageUrl = model.ImageUrl;
+            OunceWeight = model.OunceWeight;
+            RequiresPadding = model.RequiresPadding;
+            RequiresBubbleWrap = model.RequiresBubbleWrap;
+
+            ModifiedDateTime = CreatedDateTime;
+        }
+
+        public void UpdateQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
+
+        public string Upc { get; private set; }
+        public string Brand { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public string ExpirationLocation { get; private set; }
+        public string ImageUrl { get; private set; }
+        public int OunceWeight { get; private set; }
+
+        public bool RequiresPadding { get; private set; }
+        public bool RequiresBubbleWrap { get; private set; }
+
+        public int Quantity { get; private set; }
+        public Guid? ShelfLocationId { get; private set; }
+
+        public DateTime CreatedDateTime { get; private set; }
+        public DateTime ModifiedDateTime { get; private set; }
+
+        public ShelfLocation ShelfLocation { get; private set; }
+
     }
 }
