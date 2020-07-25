@@ -2,17 +2,17 @@
 using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
-using Inventory.Abstraction.Models;
 using Inventory.Api.Aggregates;
+using Inventory.Abstraction.Dto;
 
 namespace Inventory.Api.Commands
 {
     public class ProductCommandCreate : IRequest
     {
-        private readonly ProductInformation model;
-        public ProductCommandCreate(ProductInformation mod)
+        private readonly ProductDto ProductDto;
+        public ProductCommandCreate(ProductDto productDto)
         {
-            model = mod;
+            ProductDto = productDto;
         }
 
         public class ProductCommandCreateHandler : IRequestHandler<ProductCommandCreate>
@@ -26,7 +26,7 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
             {
-                var product = new Product(request.model);
+                var product = new Product(request.ProductDto);
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Inventory.Api.Infrastructure.EntityConfigurations
 {
-    class ShelfEntityConfiguration : IEntityTypeConfiguration<Shelf>
+    class ShelfLocationEntityConfiguration : IEntityTypeConfiguration<ShelfLocation>
     {
-        public void Configure(EntityTypeBuilder<Shelf> builder)
+        public void Configure(EntityTypeBuilder<ShelfLocation> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.ShelfLocations).WithOne().HasForeignKey(x => x.Id);
         }
     }
 }

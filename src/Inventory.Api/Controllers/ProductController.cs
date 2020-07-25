@@ -1,4 +1,4 @@
-﻿using Inventory.Abstraction.Models;
+﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates;
 using Inventory.Api.Commands;
 using MediatR;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Ag2yd.Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("api/product")]
+    [Route("api/product/")]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,9 +26,16 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductInformation model)
+        public async Task<IActionResult> Create([FromBody] ProductDto productDto)
         {
-            await _mediator.Send(new ProductCommandCreate(model));
+            await _mediator.Send(new ProductCommandCreate(productDto));
+            return Ok();
+        }
+
+        [HttpPatch("{upc}/")]
+        public async Task<IActionResult> Update(string upc, [FromBody] ProductDto productDto)
+        {
+            await _mediator.Send(new ProductCommandUpdate(upc, productDto));
             return Ok();
         }
     }

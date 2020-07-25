@@ -4,8 +4,10 @@ namespace Inventory.Api.Aggregates.Shelf
 {
     public class ShelfLocation
     {
-        public Guid Id { get; set; }
-        public int Row { get; set; }
-        public int Position { get; set; }
+        public ShelfLocation() { }
+
+        public Guid Id { get; private set; }
+        public int Row { get; private set; }
+        public int Position { get; private set; }
     }
 }

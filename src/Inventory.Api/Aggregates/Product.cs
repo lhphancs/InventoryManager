@@ -1,4 +1,4 @@
-﻿using Inventory.Abstraction.Models;
+﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
 using System;
 
@@ -6,32 +6,29 @@ namespace Inventory.Api.Aggregates
 {
     public class Product
     {
-        public Product(ProductInformation model)
+        public Product() { }
+
+        public Product(ProductDto productDto)
         {
-            UpdateProductInformation(model);
+            UpdateProduct(productDto);
 
             CreatedDateTime = DateTime.UtcNow;
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void UpdateProductInformation(ProductInformation model)
+        public void UpdateProduct(ProductDto productDto)
         {
-            Upc = model.Upc;
-            Brand = model.Brand;
-            Name = model.Name;
-            Description = model.Description;
-            ExpirationLocation = model.ExpirationLocation;
-            ImageUrl = model.ImageUrl;
-            OunceWeight = model.OunceWeight;
-            RequiresPadding = model.RequiresPadding;
-            RequiresBubbleWrap = model.RequiresBubbleWrap;
-
+            Upc = productDto.Upc;
+            Brand = productDto.Brand;
+            Name = productDto.Name;
+            Description = productDto.Description;
+            ExpirationLocation = productDto.ExpirationLocation;
+            ImageUrl = productDto.ImageUrl;
+            OunceWeight = productDto.OunceWeight;
+            RequiresPadding = productDto.RequiresPadding;
+            RequiresBubbleWrap = productDto.RequiresBubbleWrap;
+            Quantity = productDto.Quantity;
             ModifiedDateTime = CreatedDateTime;
-        }
-
-        public void UpdateQuantity(int quantity)
-        {
-            Quantity = quantity;
         }
 
         public string Upc { get; private set; }
@@ -52,6 +49,5 @@ namespace Inventory.Api.Aggregates
         public DateTime ModifiedDateTime { get; private set; }
 
         public ShelfLocation ShelfLocation { get; private set; }
-
     }
 }
