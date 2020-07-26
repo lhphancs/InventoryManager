@@ -55,8 +55,7 @@ namespace Inventory.Api.Migrations
                     Quantity = table.Column<int>(nullable: false),
                     ShelfLocationId = table.Column<byte[]>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedDateTime = table.Column<DateTime>(nullable: false),
-                    ShelfLocationId1 = table.Column<byte[]>(nullable: true)
+                    ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,24 +66,12 @@ namespace Inventory.Api.Migrations
                         principalTable: "ShelfLocation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Products_ShelfLocation_ShelfLocationId1",
-                        column: x => x.ShelfLocationId1,
-                        principalTable: "ShelfLocation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ShelfLocationId",
                 table: "Products",
                 column: "ShelfLocationId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ShelfLocationId1",
-                table: "Products",
-                column: "ShelfLocationId1",
                 unique: true);
         }
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20200725211329_init")]
+    [Migration("20200726225424_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,15 +60,9 @@ namespace Inventory.Api.Migrations
                     b.Property<byte[]>("ShelfLocationId")
                         .HasColumnType("varbinary(16)");
 
-                    b.Property<byte[]>("ShelfLocationId1")
-                        .HasColumnType("varbinary(16)");
-
                     b.HasKey("Upc");
 
                     b.HasIndex("ShelfLocationId")
-                        .IsUnique();
-
-                    b.HasIndex("ShelfLocationId1")
                         .IsUnique();
 
                     b.ToTable("Products");
@@ -112,10 +106,6 @@ namespace Inventory.Api.Migrations
                     b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", "ShelfLocation")
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
-
-                    b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", null)
-                        .WithOne("Product")
-                        .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId1");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>

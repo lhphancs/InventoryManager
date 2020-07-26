@@ -48,6 +48,6 @@ namespace Inventory.Api.Aggregates
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
 
-        public ShelfLocation ShelfLocation { get; private set; }
+        public virtual ShelfLocation ShelfLocation { get; private set; }
     }
 }

@@ -49,24 +49,18 @@ namespace Inventory.Api.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<short>("RequiresBubbleWrap")
+                    b.Property<bool>("RequiresBubbleWrap")
                         .HasColumnType("bit");
 
-                    b.Property<short>("RequiresPadding")
+                    b.Property<bool>("RequiresPadding")
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("ShelfLocationId")
                         .HasColumnType("varbinary(16)");
 
-                    b.Property<byte[]>("ShelfLocationId1")
-                        .HasColumnType("varbinary(16)");
-
                     b.HasKey("Upc");
 
                     b.HasIndex("ShelfLocationId")
-                        .IsUnique();
-
-                    b.HasIndex("ShelfLocationId1")
                         .IsUnique();
 
                     b.ToTable("Products");
@@ -110,10 +104,6 @@ namespace Inventory.Api.Migrations
                     b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", "ShelfLocation")
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
-
-                    b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", null)
-                        .WithOne("Product")
-                        .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId1");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
