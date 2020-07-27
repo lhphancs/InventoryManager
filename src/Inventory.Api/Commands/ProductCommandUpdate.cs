@@ -32,7 +32,7 @@ namespace Inventory.Api.Commands
                 var product = _context.Products.FirstOrDefault(x => x.Upc == request.UpcOfProdctToUpdate);
                 if (product == null)
                 {
-                    throw new Exception("");
+                    throw new InvalidOperationException($"Upc '{request.UpcOfProdctToUpdate}' not found");
                 }
                 product.UpdateProduct(request.ProductDto);
                 await _context.SaveChangesAsync(cancellationToken);

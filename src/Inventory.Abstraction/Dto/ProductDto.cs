@@ -17,5 +17,6 @@ namespace Inventory.Abstraction.Dto
 
         public int Quantity { get; set; }
         public Guid? ShelfLocationId { get; set; }
+        public ShelfLocationDto? ShelfLocation { get; set; }
     }
 }

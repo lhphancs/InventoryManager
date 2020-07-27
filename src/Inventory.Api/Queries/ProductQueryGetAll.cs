@@ -4,18 +4,19 @@ using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Inventory.Api.Aggregates;
+using Inventory.Abstraction.Dto;
+using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Queries
 {
-    public class ProductQueryGetAll : IRequest<List<Product>>
+    public class ProductQueryGetAll : IRequest<IEnumerable<ProductDto>>
     {
         public ProductQueryGetAll()
         {
 
         }
 
-        public class ProductGetAllQueryHandler : IRequestHandler<ProductQueryGetAll, List<Product>>
+        public class ProductGetAllQueryHandler : IRequestHandler<ProductQueryGetAll, IEnumerable<ProductDto>>
         {
             private readonly InventoryContext _context;
 
@@ -24,10 +25,11 @@ namespace Inventory.Api.Queries
                 _context = context;
             }
 
-            public async Task<List<Product>> Handle(ProductQueryGetAll request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ProductDto>> Handle(ProductQueryGetAll request, CancellationToken cancellationToken)
             {
                 var products = await _context.Products.ToListAsync();
-                return products;
+                var productDtos = ProductMapper.MapProductToProductDto(products);
+                return productDtos;
             }
         }
     }

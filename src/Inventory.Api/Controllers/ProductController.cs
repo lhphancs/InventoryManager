@@ -1,6 +1,7 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates;
 using Inventory.Api.Commands;
+using Inventory.Api.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -20,9 +21,10 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Product> Get()
+        public async Task<IActionResult> GetAll()
         {
-            return null;
+            var productDtos = await _mediator.Send(new ProductQueryGetAll());
+            return Ok(productDtos);
         }
 
         [HttpPost]
@@ -36,6 +38,13 @@ namespace Ag2yd.Inventory.Api.Controllers
         public async Task<IActionResult> Update(string upc, [FromBody] ProductDto productDto)
         {
             await _mediator.Send(new ProductCommandUpdate(upc, productDto));
+            return Ok();
+        }
+
+        [HttpDelete("{upc}/")]
+        public async Task<IActionResult> Delete(string upc)
+        {
+            await _mediator.Send(new ProductCommandDelete(upc));
             return Ok();
         }
     }
