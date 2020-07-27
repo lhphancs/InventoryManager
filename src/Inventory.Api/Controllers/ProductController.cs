@@ -20,6 +20,13 @@ namespace Ag2yd.Inventory.Api.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("{upc}/")]
+        public async Task<IActionResult> GetByUpc(string upc)
+        {
+            var productDto = await _mediator.Send(new ProductQueryGetByUpc(upc));
+            return Ok(productDto);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
