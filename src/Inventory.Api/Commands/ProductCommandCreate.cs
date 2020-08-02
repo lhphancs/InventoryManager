@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Inventory.Api.Aggregates;
 using Inventory.Abstraction.Dto;
+using Inventory.Abstraction.Interfaces;
 
 namespace Inventory.Api.Commands
 {
@@ -19,8 +20,14 @@ namespace Inventory.Api.Commands
         {
             private readonly InventoryContext _context;
 
-            public ProductCommandCreateHandler(InventoryContext context)
+            public ProductCommandCreateHandler(InventoryContext context, IRabbitManager rabbitManager)
             {
+                rabbitManager.Publish(new
+                {
+                    field1 = $"Hello-",
+                    field2 = $"rabbit-"
+                }, "demo.exchange.topic.dotnetcore", "topic", "*.queue.durable.dotnetcore.#");
+
                 _context = context;
             }
 

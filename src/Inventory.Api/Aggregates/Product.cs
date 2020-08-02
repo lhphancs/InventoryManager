@@ -10,8 +10,8 @@ namespace Inventory.Api.Aggregates
 
         public Product(ProductDto productDto)
         {
-            UpdateProductInfo(productDto.ProductInfoDto);
-            UpdateProductPreparationInfo(productDto.ProductPreparationInfoDtorationInfo);
+            UpdateProductInfo(productDto.ProductInfo);
+            UpdateProductPreparationInfo(productDto.ProductPreparationInfo);
 
             Quantity = productDto.Quantity;
 

@@ -11,6 +11,8 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
             builder.HasKey(x => x.Upc);
 
             builder.HasOne(x => x.ShelfLocation).WithOne().HasForeignKey<Product>(x => x.ShelfLocationId);
+            builder.OwnsOne(x => x.ProductInfo);
+            builder.OwnsOne(x => x.ProductPreparationInfo);
         }
     }
 }

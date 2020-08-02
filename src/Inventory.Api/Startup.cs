@@ -1,10 +1,13 @@
 using Inventory.Api.Infrastructure;
+using Inventory.Api.Infrastructure.RabbitMq;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.ObjectPool;
+using RabbitMQ.Client;
 
 namespace Inventory.Api
 {
@@ -23,6 +26,19 @@ namespace Inventory.Api
             services.AddControllers();
             services.AddDbContext<InventoryContext>();
             services.AddMediatR(typeof(Startup));
+            services.AddRabbit(Configuration);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .SetIsOriginAllowed((host) => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
