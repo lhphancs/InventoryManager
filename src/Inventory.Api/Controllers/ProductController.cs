@@ -1,10 +1,8 @@
 ﻿using Inventory.Abstraction.Dto;
-using Inventory.Api.Aggregates;
 using Inventory.Api.Commands;
 using Inventory.Api.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ag2yd.Inventory.Api.Controllers

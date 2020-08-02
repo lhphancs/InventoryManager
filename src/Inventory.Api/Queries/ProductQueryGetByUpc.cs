@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using Inventory.Api.Infrastructure;
 using System.Threading;
 using System.Threading.Tasks;

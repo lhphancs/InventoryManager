@@ -10,37 +10,45 @@ namespace Inventory.Api.Aggregates
 
         public Product(ProductDto productDto)
         {
-            UpdateProduct(productDto);
+            UpdateProductInfo(productDto.ProductInfoDto);
+            UpdateProductPreparationInfo(productDto.ProductPreparationInfoDtorationInfo);
+
+            Quantity = productDto.Quantity;
 
             CreatedDateTime = DateTime.UtcNow;
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void UpdateProduct(ProductDto productDto)
+        public void UpdateProductInfo(ProductInfoDto productInfoDto)
         {
-            Upc = productDto.Upc;
-            Brand = productDto.Brand;
-            Name = productDto.Name;
-            Description = productDto.Description;
-            ExpirationLocation = productDto.ExpirationLocation;
-            ImageUrl = productDto.ImageUrl;
-            OunceWeight = productDto.OunceWeight;
-            RequiresPadding = productDto.RequiresPadding;
-            RequiresBubbleWrap = productDto.RequiresBubbleWrap;
-            Quantity = productDto.Quantity;
+            ProductInfo = new ProductInfo(productInfoDto);
+
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public string Upc { get; private set; }
-        public string Brand { get; private set; }
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public string ExpirationLocation { get; private set; }
-        public string ImageUrl { get; private set; }
-        public int OunceWeight { get; private set; }
+        public void UpdateProductPreparationInfo(ProductPreparationInfoDto productPreparationInfoDto)
+        {
+            ProductPreparationInfo = new ProductPreparationInfo(productPreparationInfoDto);
 
-        public bool RequiresPadding { get; private set; }
-        public bool RequiresBubbleWrap { get; private set; }
+            ModifiedDateTime = CreatedDateTime;
+        }
+
+        public void ChangeQuantity(string companyName, int quantityChange)
+        {
+            Quantity += quantityChange;
+
+            // Send msg to store in audit table
+            ModifiedDateTime = CreatedDateTime;
+        }
+
+        public void AssignNewShelfLocation(Guid shelfLocationId)
+        {
+            ShelfLocationId = shelfLocationId;
+        }
+
+        public string Upc { get; private set; }
+        public ProductInfo ProductInfo { get; private set; }
+        public ProductPreparationInfo ProductPreparationInfo { get; private set; }
 
         public int Quantity { get; private set; }
         public Guid? ShelfLocationId { get; private set; }

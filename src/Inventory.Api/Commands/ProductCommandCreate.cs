@@ -28,6 +28,7 @@ namespace Inventory.Api.Commands
             {
                 var product = new Product(request.ProductDto);
                 _context.Products.Add(product);
+
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

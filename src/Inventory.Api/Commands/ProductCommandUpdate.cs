@@ -34,7 +34,7 @@ namespace Inventory.Api.Commands
                 {
                     throw new InvalidOperationException($"Upc '{request.UpcOfProdctToUpdate}' not found");
                 }
-                product.UpdateProduct(request.ProductDto);
+                product.UpdateProductInfo(request.ProductDto.ProductInfoDto);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
