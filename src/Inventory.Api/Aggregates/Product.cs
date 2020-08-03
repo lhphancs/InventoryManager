@@ -1,6 +1,6 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
-using Inventory.Api.Events;
+using Inventory.Api.Events.DomainEvents;
 using Inventory.Api.SeedWork;
 using Inventory.Api.ValueObjects;
 using System;

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace Inventory.Api.Events
+namespace Inventory.Api.Events.DomainEvents
 {
     public class ProductQuantityChangeEvent : INotification
     {

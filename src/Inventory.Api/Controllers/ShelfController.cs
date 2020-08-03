@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 namespace Ag2yd.Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("api/product/")]
-    public class ProductController : ControllerBase
+    [Route("api/shelf/")]
+    public class ShelfController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ProductController(IMediator mediator)
+        public ShelfController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -29,8 +29,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var productDtos = await _mediator.Send(new ProductQueryGetAll());
-            return Ok(productDtos);
+            var shelfDtos = await _mediator.Send(new ShelfQueryGetAll());
+            return Ok(shelfDtos);
         }
 
         [HttpPost]

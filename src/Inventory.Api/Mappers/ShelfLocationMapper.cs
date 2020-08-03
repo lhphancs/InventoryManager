@@ -1,5 +1,7 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Inventory.Api.Mappers
 {
@@ -18,6 +20,11 @@ namespace Inventory.Api.Mappers
                 Row = shelfLocation.Row,
                 Position = shelfLocation.Position
             };
+        }
+        public static IEnumerable<ShelfLocationDto> MapShelfLocationToShelfLocationDto(IEnumerable<ShelfLocation> shelfLocations)
+        {
+            var shelfLocationDtos = shelfLocations.Select(x => MapShelfLocationToShelfLocationDto(x));
+            return shelfLocationDtos;
         }
     }
 }

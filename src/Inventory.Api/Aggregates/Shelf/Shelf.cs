@@ -10,6 +10,6 @@ namespace Inventory.Api.Aggregates.Shelf
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public virtual List<ShelfLocation > ShelfLocations {get; set;}
+        public virtual List<ShelfLocation> ShelfLocations {get; set;}
     }
 }
