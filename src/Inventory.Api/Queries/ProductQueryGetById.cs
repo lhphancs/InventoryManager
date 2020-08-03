@@ -8,15 +8,15 @@ using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Queries
 {
-    public class ProductQueryGetByUpc : IRequest<ProductDto>
+    public class ProductQueryGetById : IRequest<ProductDto>
     {
-        private readonly string Upc;
-        public ProductQueryGetByUpc(string upc)
+        private readonly int Id;
+        public ProductQueryGetById(int id)
         {
-            Upc = upc;
+            Id = id;
         }
 
-        public class ProductGetByUpcQueryHandler : IRequestHandler<ProductQueryGetByUpc, ProductDto>
+        public class ProductGetByUpcQueryHandler : IRequestHandler<ProductQueryGetById, ProductDto>
         {
             private readonly InventoryContext _context;
 
@@ -25,9 +25,9 @@ namespace Inventory.Api.Queries
                 _context = context;
             }
 
-            public async Task<ProductDto> Handle(ProductQueryGetByUpc request, CancellationToken cancellationToken)
+            public async Task<ProductDto> Handle(ProductQueryGetById request, CancellationToken cancellationToken)
             {
-                var product = await _context.Products.FirstOrDefaultAsync(x => x.Upc == request.Upc);
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id);
                 var productDto = ProductMapper.MapProductToProductDto(product);
                 return productDto;
             }

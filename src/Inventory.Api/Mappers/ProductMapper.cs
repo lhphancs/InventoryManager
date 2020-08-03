@@ -11,6 +11,7 @@ namespace Inventory.Api.Mappers
         {
             return new ProductDto
             {
+                Id = product.Id,
                 Upc = product.Upc,
                 ProductInfo = ProductInfoMapper.MapProductInfoToProductInfoDto(product.ProductInfo),
                 ProductPreparationInfo = ProductPreparationInfoMapper.MapProductPreparationInfoToProductPreparationInfoDto(product.ProductPreparationInfo),

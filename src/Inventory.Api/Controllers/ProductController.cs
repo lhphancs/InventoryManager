@@ -19,10 +19,10 @@ namespace Ag2yd.Inventory.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{upc}/")]
-        public async Task<IActionResult> GetByUpc(string upc)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByUpc(int id)
         {
-            var productDto = await _mediator.Send(new ProductQueryGetByUpc(upc));
+            var productDto = await _mediator.Send(new ProductQueryGetById(id));
             return Ok(productDto);
         }
 
@@ -40,24 +40,24 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch("{upc}/")]
-        public async Task<IActionResult> UpdateInfo(string upc, [FromBody] ProductInfoDto productInfoDto)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateInfo(int id, [FromBody] ProductInfoDto productInfoDto)
         {
-            await _mediator.Send(new ProductCommandUpdateInfo(upc, productInfoDto));
+            await _mediator.Send(new ProductCommandUpdateInfo(id, productInfoDto));
             return Ok();
         }
 
-        [HttpPatch("{upc}/receive")]
-        public async Task<IActionResult> Receive(string upc, [FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
+        [HttpPatch("receive")]
+        public async Task<IActionResult> Receive([FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
         {
-            await _mediator.Send(new ProductCommandReceive(upc, productQuantityChangeInfo));
+            await _mediator.Send(new ProductCommandReceive(productQuantityChangeInfo));
             return Ok();
         }
 
-        [HttpDelete("{upc}/")]
-        public async Task<IActionResult> Delete(string upc)
+        [HttpDelete("{id}/")]
+        public async Task<IActionResult> Delete(int id)
         {
-            await _mediator.Send(new ProductCommandDelete(upc));
+            await _mediator.Send(new ProductCommandDelete(id));
             return Ok();
         }
     }

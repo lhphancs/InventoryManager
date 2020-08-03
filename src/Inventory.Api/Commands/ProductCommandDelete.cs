@@ -9,10 +9,10 @@ namespace Inventory.Api.Commands
 {
     public class ProductCommandDelete : IRequest
     {
-        private readonly string UpcToDelete;
-        public ProductCommandDelete(string upc)
+        private readonly int Id;
+        public ProductCommandDelete(int id)
         {
-            UpcToDelete = upc;
+            Id = id;
         }
 
         public class ProductCommandDeleteHandler : IRequestHandler<ProductCommandDelete>
@@ -26,10 +26,10 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ProductCommandDelete request, CancellationToken cancellationToken)
             {
-                var product = _context.Products.FirstOrDefault(x => x.Upc == request.UpcToDelete);
+                var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
                 if (product == null)
                 {
-                    throw new InvalidOperationException($"Upc '{request.UpcToDelete}' not found");
+                    throw new InvalidOperationException($"ProductId '{request.Id}' not found");
                 }
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync(cancellationToken);

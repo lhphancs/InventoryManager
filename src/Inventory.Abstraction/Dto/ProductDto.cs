@@ -1,15 +1,14 @@
-﻿using System;
-
-namespace Inventory.Abstraction.Dto
+﻿namespace Inventory.Abstraction.Dto
 {
     public class ProductDto
     {
+        public int Id { get; set; }
         public string Upc { get; set; }
 
         public ProductInfoDto ProductInfo { get; set; }
         public ProductPreparationInfoDto ProductPreparationInfo { get; set; }
         public int Quantity { get; set; }
-        public Guid? ShelfLocationId { get; set; }
+        public int? ShelfLocationId { get; set; }
         public ShelfLocationDto ShelfLocation { get; set; }
     }
 }

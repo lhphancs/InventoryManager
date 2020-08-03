@@ -10,11 +10,11 @@ namespace Inventory.Api.Commands
 {
     public class ProductCommandUpdateInfo : IRequest
     {
-        private readonly string UpcOfProdctToUpdate;
+        private readonly int Id;
         private readonly ProductInfoDto ProductInfoDto;
-        public ProductCommandUpdateInfo(string upcOfProdctToUpdate, ProductInfoDto productInfoDto)
+        public ProductCommandUpdateInfo(int id, ProductInfoDto productInfoDto)
         {
-            UpcOfProdctToUpdate = upcOfProdctToUpdate;
+            Id = id;
             ProductInfoDto = productInfoDto;
         }
 
@@ -29,10 +29,10 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ProductCommandUpdateInfo request, CancellationToken cancellationToken)
             {
-                var product = _context.Products.FirstOrDefault(x => x.Upc == request.UpcOfProdctToUpdate);
+                var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
                 if (product == null)
                 {
-                    throw new InvalidOperationException($"Upc '{request.UpcOfProdctToUpdate}' not found");
+                    throw new InvalidOperationException($"ProductId '{request.Id}' not found");
                 }
                 product.UpdateProductInfo(request.ProductInfoDto);
                 await _context.SaveChangesAsync(cancellationToken);

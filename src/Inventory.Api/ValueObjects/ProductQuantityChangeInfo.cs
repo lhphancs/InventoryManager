@@ -4,6 +4,7 @@ namespace Inventory.Api.ValueObjects
 {
     public class ProductQuantityChangeInfo
     {
+        ProductQuantityChangeInfo() { }
         public ProductQuantityChangeInfo(string upc, string companyName, int quantityChangeAmt)
         {
             if (string.IsNullOrWhiteSpace(upc))

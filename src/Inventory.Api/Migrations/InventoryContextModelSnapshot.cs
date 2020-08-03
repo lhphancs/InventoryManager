@@ -19,8 +19,9 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Product", b =>
                 {
-                    b.Property<string>("Upc")
-                        .HasColumnType("varchar(767)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime");
@@ -31,12 +32,18 @@ namespace Inventory.Api.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("ShelfLocationId")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<int?>("ShelfLocationId")
+                        .HasColumnType("int");
 
-                    b.HasKey("Upc");
+                    b.Property<string>("Upc")
+                        .HasColumnType("varchar(767)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ShelfLocationId")
+                        .IsUnique();
+
+                    b.HasIndex("Upc")
                         .IsUnique();
 
                     b.ToTable("Products");
@@ -44,9 +51,9 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.Shelf", b =>
                 {
-                    b.Property<byte[]>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(16)");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -61,8 +68,8 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
                 {
-                    b.Property<byte[]>("Id")
-                        .HasColumnType("varbinary(16)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -81,10 +88,11 @@ namespace Inventory.Api.Migrations
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
 
-                    b.OwnsOne("Inventory.Api.Aggregates.ProductInfo", "ProductInfo", b1 =>
+                    b.OwnsOne("Inventory.Api.ValueObjects.ProductInfo", "ProductInfo", b1 =>
                         {
-                            b1.Property<string>("ProductUpc")
-                                .HasColumnType("varchar(767)");
+                            b1.Property<int>("ProductId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
                             b1.Property<string>("Brand")
                                 .HasColumnType("text");
@@ -101,18 +109,19 @@ namespace Inventory.Api.Migrations
                             b1.Property<int>("OunceWeight")
                                 .HasColumnType("int");
 
-                            b1.HasKey("ProductUpc");
+                            b1.HasKey("ProductId");
 
                             b1.ToTable("Products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductUpc");
+                                .HasForeignKey("ProductId");
                         });
 
-                    b.OwnsOne("Inventory.Api.Aggregates.ProductPreparationInfo", "ProductPreparationInfo", b1 =>
+                    b.OwnsOne("Inventory.Api.ValueObjects.ProductPreparationInfo", "ProductPreparationInfo", b1 =>
                         {
-                            b1.Property<string>("ProductUpc")
-                                .HasColumnType("varchar(767)");
+                            b1.Property<int>("ProductId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
 
                             b1.Property<bool>("RequiresBox")
                                 .HasColumnType("bit");
@@ -123,12 +132,12 @@ namespace Inventory.Api.Migrations
                             b1.Property<bool>("RequiresPadding")
                                 .HasColumnType("bit");
 
-                            b1.HasKey("ProductUpc");
+                            b1.HasKey("ProductId");
 
                             b1.ToTable("Products");
 
                             b1.WithOwner()
-                                .HasForeignKey("ProductUpc");
+                                .HasForeignKey("ProductId");
                         });
                 });
 

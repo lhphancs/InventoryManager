@@ -43,7 +43,7 @@ namespace Inventory.Api.SeedWork
 
         public bool IsTransient()
         {
-            return this.Id == default;
+            return this.Id == default(Int32);
         }
 
         public override bool Equals(object obj)
@@ -78,7 +78,6 @@ namespace Inventory.Api.SeedWork
                 return base.GetHashCode();
 
         }
-
         public static bool operator ==(Entity left, Entity right)
         {
             if (Object.Equals(left, null))

@@ -1,5 +1,6 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
+using Inventory.Api.Events;
 using Inventory.Api.SeedWork;
 using Inventory.Api.ValueObjects;
 using System;
@@ -47,7 +48,7 @@ namespace Inventory.Api.Aggregates
         }
 
 
-        public void AssignNewShelfLocation(Guid shelfLocationId)
+        public void AssignNewShelfLocation(int shelfLocationId)
         {
             ShelfLocationId = shelfLocationId;
         }
@@ -59,7 +60,7 @@ namespace Inventory.Api.Aggregates
             // Send msg to store in audit table
             ModifiedDateTime = CreatedDateTime;
 
-            //AddDomainEvent();
+            AddDomainEvent(new ProductQuantityChangeEvent(Id, companyName, changeAmt, DateTime.UtcNow));
         }
 
         public string Upc { get; private set; }
@@ -67,7 +68,7 @@ namespace Inventory.Api.Aggregates
         public ProductPreparationInfo ProductPreparationInfo { get; private set; }
 
         public int Quantity { get; private set; }
-        public Guid? ShelfLocationId { get; private set; }
+        public int? ShelfLocationId { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }

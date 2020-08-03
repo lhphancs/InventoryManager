@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Inventory.Api.Migrations
 {
@@ -11,7 +12,8 @@ namespace Inventory.Api.Migrations
                 name: "Shelf",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },
@@ -24,7 +26,7 @@ namespace Inventory.Api.Migrations
                 name: "ShelfLocation",
                 columns: table => new
                 {
-                    Id = table.Column<byte[]>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     Row = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false)
                 },
@@ -43,7 +45,9 @@ namespace Inventory.Api.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Upc = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Upc = table.Column<string>(nullable: true),
                     ProductInfo_Brand = table.Column<string>(nullable: true),
                     ProductInfo_Name = table.Column<string>(nullable: true),
                     ProductInfo_Description = table.Column<string>(nullable: true),
@@ -53,13 +57,13 @@ namespace Inventory.Api.Migrations
                     ProductPreparationInfo_RequiresPadding = table.Column<bool>(nullable: true),
                     ProductPreparationInfo_RequiresBox = table.Column<bool>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    ShelfLocationId = table.Column<byte[]>(nullable: true),
+                    ShelfLocationId = table.Column<int>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Upc);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Products_ShelfLocation_ShelfLocationId",
                         column: x => x.ShelfLocationId,
@@ -72,6 +76,12 @@ namespace Inventory.Api.Migrations
                 name: "IX_Products_ShelfLocationId",
                 table: "Products",
                 column: "ShelfLocationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Upc",
+                table: "Products",
+                column: "Upc",
                 unique: true);
         }
 

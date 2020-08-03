@@ -10,13 +10,11 @@ namespace Inventory.Api.Commands
 {
     public class ProductCommandReceive : IRequest
     {
-        private readonly string UpcOfProdctToUpdate;
         private readonly ProductQuantityChangeInfo ProductQuantityChangeInfo;
 
 
-        public ProductCommandReceive(string upcOfProdctToUpdate, ProductQuantityChangeInfo productQuantityChangeInfo)
+        public ProductCommandReceive(ProductQuantityChangeInfo productQuantityChangeInfo)
         {
-            UpcOfProdctToUpdate = upcOfProdctToUpdate;
             ProductQuantityChangeInfo = productQuantityChangeInfo;
         }
 
@@ -31,13 +29,14 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ProductCommandReceive request, CancellationToken cancellationToken)
             {
-                var product = _context.Products.FirstOrDefault(x => x.Upc == request.UpcOfProdctToUpdate);
+                var upcOfProductToUpdate = request.ProductQuantityChangeInfo.Upc;
+                var product = _context.Products.FirstOrDefault(x => x.Upc == upcOfProductToUpdate);
                 if (product == null)
                 {
-                    throw new InvalidOperationException($"Upc '{request.UpcOfProdctToUpdate}' not found");
+                    throw new InvalidOperationException($"'{upcOfProductToUpdate}' not found");
                 }
                 product.RecieveIn(request.ProductQuantityChangeInfo);
-                await _context.SaveChangesAsync(cancellationToken);
+                await _context.SaveEntitiesAsync(cancellationToken);
 
                 return Unit.Value;
             }
