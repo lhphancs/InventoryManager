@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Inventory.Api.SeedWork
 {
+    [ExcludeFromCodeCoverage]
     public abstract class Entity
     {
         int? _requestedHashCode;
@@ -76,6 +78,7 @@ namespace Inventory.Api.SeedWork
                 return base.GetHashCode();
 
         }
+
         public static bool operator ==(Entity left, Entity right)
         {
             if (Object.Equals(left, null))

@@ -1,8 +1,10 @@
 ﻿using Inventory.Abstraction.Dto;
+using Inventory.Api.Infrastructure;
+using System.Collections.Generic;
 
-namespace Inventory.Api.Aggregates
+namespace Inventory.Api.ValueObjects
 {
-    public class ProductPreparationInfo
+    public class ProductPreparationInfo : ValueObject
     {
         public ProductPreparationInfo() { }
 
@@ -16,5 +18,12 @@ namespace Inventory.Api.Aggregates
         public bool RequiresBubbleWrap { get; private set; }
         public bool RequiresPadding { get; private set; }
         public bool RequiresBox { get; private set; }
+
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return RequiresBubbleWrap;
+            yield return RequiresPadding;
+            yield return RequiresBox;
+        }
     }
 }

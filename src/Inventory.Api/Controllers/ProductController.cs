@@ -1,6 +1,7 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Commands;
 using Inventory.Api.Queries;
+using Inventory.Api.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -40,9 +41,16 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPatch("{upc}/")]
-        public async Task<IActionResult> Update(string upc, [FromBody] ProductDto productDto)
+        public async Task<IActionResult> UpdateInfo(string upc, [FromBody] ProductInfoDto productInfoDto)
         {
-            await _mediator.Send(new ProductCommandUpdate(upc, productDto));
+            await _mediator.Send(new ProductCommandUpdateInfo(upc, productInfoDto));
+            return Ok();
+        }
+
+        [HttpPatch("{upc}/receive")]
+        public async Task<IActionResult> Receive(string upc, [FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
+        {
+            await _mediator.Send(new ProductCommandReceive(upc, productQuantityChangeInfo));
             return Ok();
         }
 

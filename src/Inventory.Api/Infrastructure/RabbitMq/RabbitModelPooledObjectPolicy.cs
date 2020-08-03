@@ -24,8 +24,6 @@ namespace Inventory.Api.Infrastructure.RabbitMq
                 HostName = _options.HostName,
                 UserName = _options.UserName,
                 Password = _options.Password,
-                Port = _options.Port,
-                VirtualHost = _options.VHost,
             };
 
             return factory.CreateConnection();

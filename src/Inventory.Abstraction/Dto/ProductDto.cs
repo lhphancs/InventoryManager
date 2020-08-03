@@ -10,6 +10,6 @@ namespace Inventory.Abstraction.Dto
         public ProductPreparationInfoDto ProductPreparationInfo { get; set; }
         public int Quantity { get; set; }
         public Guid? ShelfLocationId { get; set; }
-        public ShelfLocationDto? ShelfLocation { get; set; }
+        public ShelfLocationDto ShelfLocation { get; set; }
     }
 }

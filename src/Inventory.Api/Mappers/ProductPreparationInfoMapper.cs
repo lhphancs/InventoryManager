@@ -1,5 +1,5 @@
 ﻿using Inventory.Abstraction.Dto;
-using Inventory.Api.Aggregates;
+using Inventory.Api.ValueObjects;
 using System.Collections.Generic;
 using System.Linq;
 

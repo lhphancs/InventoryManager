@@ -1,15 +1,18 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
+using Inventory.Api.SeedWork;
+using Inventory.Api.ValueObjects;
 using System;
 
 namespace Inventory.Api.Aggregates
 {
-    public class Product
+    public class Product : Entity
     {
         public Product() { }
 
         public Product(ProductDto productDto)
         {
+            Upc = productDto.Upc;
             UpdateProductInfo(productDto.ProductInfo);
             UpdateProductPreparationInfo(productDto.ProductPreparationInfo);
 
@@ -33,17 +36,30 @@ namespace Inventory.Api.Aggregates
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void ChangeQuantity(string companyName, int quantityChange)
+        public void RecieveIn(ProductQuantityChangeInfo productQuantityChangeInfo)
         {
-            Quantity += quantityChange;
-
-            // Send msg to store in audit table
-            ModifiedDateTime = CreatedDateTime;
+            ChangeQuantityAmt(productQuantityChangeInfo.CompanyName, productQuantityChangeInfo.QuantityChangeAmt);
         }
+
+        public void ShipOut(ProductQuantityChangeInfo productQuantityChangeInfo)
+        {
+            ChangeQuantityAmt(productQuantityChangeInfo.CompanyName, -productQuantityChangeInfo.QuantityChangeAmt);
+        }
+
 
         public void AssignNewShelfLocation(Guid shelfLocationId)
         {
             ShelfLocationId = shelfLocationId;
+        }
+
+        private void ChangeQuantityAmt(string companyName, int changeAmt)
+        {
+            Quantity += changeAmt;
+
+            // Send msg to store in audit table
+            ModifiedDateTime = CreatedDateTime;
+
+            //AddDomainEvent();
         }
 
         public string Upc { get; private set; }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Inventory.Api.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,14 +44,14 @@ namespace Inventory.Api.Migrations
                 columns: table => new
                 {
                     Upc = table.Column<string>(nullable: false),
-                    Brand = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ExpirationLocation = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    OunceWeight = table.Column<int>(nullable: false),
-                    RequiresPadding = table.Column<bool>(nullable: false),
-                    RequiresBubbleWrap = table.Column<bool>(nullable: false),
+                    ProductInfo_Brand = table.Column<string>(nullable: true),
+                    ProductInfo_Name = table.Column<string>(nullable: true),
+                    ProductInfo_Description = table.Column<string>(nullable: true),
+                    ProductInfo_ExpirationLocation = table.Column<string>(nullable: true),
+                    ProductInfo_OunceWeight = table.Column<int>(nullable: true),
+                    ProductPreparationInfo_RequiresBubbleWrap = table.Column<bool>(nullable: true),
+                    ProductPreparationInfo_RequiresPadding = table.Column<bool>(nullable: true),
+                    ProductPreparationInfo_RequiresBox = table.Column<bool>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     ShelfLocationId = table.Column<byte[]>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),

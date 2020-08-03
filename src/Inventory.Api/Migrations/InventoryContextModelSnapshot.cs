@@ -22,38 +22,14 @@ namespace Inventory.Api.Migrations
                     b.Property<string>("Upc")
                         .HasColumnType("varchar(767)");
 
-                    b.Property<string>("Brand")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ExpirationLocation")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
 
                     b.Property<DateTime>("ModifiedDateTime")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("OunceWeight")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<bool>("RequiresBubbleWrap")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("RequiresPadding")
-                        .HasColumnType("bit");
 
                     b.Property<byte[]>("ShelfLocationId")
                         .HasColumnType("varbinary(16)");
@@ -104,6 +80,56 @@ namespace Inventory.Api.Migrations
                     b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", "ShelfLocation")
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
+
+                    b.OwnsOne("Inventory.Api.Aggregates.ProductInfo", "ProductInfo", b1 =>
+                        {
+                            b1.Property<string>("ProductUpc")
+                                .HasColumnType("varchar(767)");
+
+                            b1.Property<string>("Brand")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Description")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("ExpirationLocation")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("text");
+
+                            b1.Property<int>("OunceWeight")
+                                .HasColumnType("int");
+
+                            b1.HasKey("ProductUpc");
+
+                            b1.ToTable("Products");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductUpc");
+                        });
+
+                    b.OwnsOne("Inventory.Api.Aggregates.ProductPreparationInfo", "ProductPreparationInfo", b1 =>
+                        {
+                            b1.Property<string>("ProductUpc")
+                                .HasColumnType("varchar(767)");
+
+                            b1.Property<bool>("RequiresBox")
+                                .HasColumnType("bit");
+
+                            b1.Property<bool>("RequiresBubbleWrap")
+                                .HasColumnType("bit");
+
+                            b1.Property<bool>("RequiresPadding")
+                                .HasColumnType("bit");
+
+                            b1.HasKey("ProductUpc");
+
+                            b1.ToTable("Products");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductUpc");
+                        });
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
