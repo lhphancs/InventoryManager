@@ -1,4 +1,4 @@
-﻿using Inventory.Api.Events;
+﻿using Inventory.Api.Events.DomainEvents;
 using MediatR;
 using System;
 using System.Threading;

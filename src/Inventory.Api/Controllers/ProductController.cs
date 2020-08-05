@@ -46,6 +46,13 @@ namespace Ag2yd.Inventory.Api.Controllers
             await _mediator.Send(new ProductCommandUpdateInfo(id, productInfoDto));
             return Ok();
         }
+        
+        [HttpDelete("{id}/")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _mediator.Send(new ProductCommandDelete(id));
+            return Ok();
+        }
 
         [HttpPatch("receive")]
         public async Task<IActionResult> Receive([FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
@@ -54,11 +61,5 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}/")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _mediator.Send(new ProductCommandDelete(id));
-            return Ok();
-        }
     }
 }

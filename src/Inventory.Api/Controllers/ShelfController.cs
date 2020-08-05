@@ -1,7 +1,6 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Commands;
 using Inventory.Api.Queries;
-using Inventory.Api.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,8 +21,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var productDto = await _mediator.Send(new ProductQueryGetById(id));
-            return Ok(productDto);
+            var shelfDto = await _mediator.Send(new ShelfQueryGetById(id));
+            return Ok(shelfDto);
         }
 
         [HttpGet]
@@ -34,30 +33,23 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductDto productDto)
+        public async Task<IActionResult> Create([FromBody] ShelfDto shelfDto)
         {
-            await _mediator.Send(new ProductCommandCreate(productDto));
-            return Ok();
-        }
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateInfo(int id, [FromBody] ProductInfoDto productInfoDto)
-        {
-            await _mediator.Send(new ProductCommandUpdateInfo(id, productInfoDto));
-            return Ok();
-        }
-
-        [HttpPatch("receive")]
-        public async Task<IActionResult> Receive([FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
-        {
-            await _mediator.Send(new ProductCommandReceive(productQuantityChangeInfo));
+            await _mediator.Send(new ShelfCommandCreate(shelfDto));
             return Ok();
         }
 
         [HttpDelete("{id}/")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _mediator.Send(new ProductCommandDelete(id));
+            await _mediator.Send(new ShelfCommandDelete(id));
+            return Ok();
+        }
+
+        [HttpPatch("{id}/add-shelf-location")]
+        public async Task<IActionResult> Receive(int shelfId, [FromBody] ShelfLocationDto shelfLocationDto)
+        {
+            await _mediator.Send(new ShelfCommandAddShelfLocation(shelfId, shelfLocationDto.Row, shelfLocationDto.Position));
             return Ok();
         }
     }

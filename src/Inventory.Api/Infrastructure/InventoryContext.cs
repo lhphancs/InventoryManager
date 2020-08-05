@@ -1,4 +1,5 @@
 ﻿using Inventory.Api.Aggregates;
+using Inventory.Api.Aggregates.Shelf;
 using Inventory.Api.Infrastructure.EntityConfigurations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,7 @@ namespace Inventory.Api.Infrastructure
         }
 
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Shelf> Shelfs { get; set; }
     }
 
     
