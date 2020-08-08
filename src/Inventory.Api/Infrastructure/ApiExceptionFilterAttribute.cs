@@ -5,7 +5,7 @@ using System.Net;
 
 namespace Inventory.Api.Infrastructure
 {
-    public class ApiExceptionFilter : ExceptionFilterAttribute
+    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         public override void OnException(ExceptionContext context)
         {

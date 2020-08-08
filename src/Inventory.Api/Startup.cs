@@ -23,7 +23,7 @@ namespace Inventory.Api
         {
             services.AddControllers(options =>
             {
-                options.Filters.Add(typeof(ApiExceptionFilter));
+                options.Filters.Add(typeof(ApiExceptionFilterAttribute));
             });
             services.AddDbContext<InventoryContext>();
             services.AddMediatR(typeof(Startup));

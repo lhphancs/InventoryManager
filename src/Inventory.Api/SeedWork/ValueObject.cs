@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Inventory.Api.Infrastructure
 {
+    #pragma warning disable
+
     public abstract class ValueObject
     {
         protected abstract IEnumerable<object> GetEqualityComponents();
