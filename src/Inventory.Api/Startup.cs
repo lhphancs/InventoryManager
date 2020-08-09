@@ -57,6 +57,8 @@ namespace Inventory.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors("CorsPolicy"); // TODO: Revisit cors
         }
     }
 }
