@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Ag2yd.Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("api/shelf/")]
+    [Route("shelf/")]
     public class ShelfController : ControllerBase
     {
         private readonly IMediator _mediator;

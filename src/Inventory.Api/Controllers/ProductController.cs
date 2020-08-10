@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Ag2yd.Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("api/product/")]
+    [Route("product/")]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
