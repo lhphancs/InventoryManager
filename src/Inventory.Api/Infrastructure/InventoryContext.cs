@@ -25,6 +25,9 @@ namespace Inventory.Api.Infrastructure
         {
             builder.ApplyConfiguration(new ProductEntityConfiguration());
             builder.ApplyConfiguration(new ShelfEntityConfiguration());
+            builder.ApplyConfiguration(new WholesalerEntityConfiguration());
+
+            builder.ApplyConfiguration(new ProductWholesalerEntityConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -52,6 +55,7 @@ namespace Inventory.Api.Infrastructure
 
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Shelf> Shelfs { get; set; }
+        public virtual DbSet<Wholesaler> Wholesalers { get; set; }
     }
 
     

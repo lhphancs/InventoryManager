@@ -7,25 +7,28 @@ namespace Inventory.Api.Mappers
 {
     public static class ProductMapper
     {
-        public static ProductDto MapProductToProductDto(Product product)
+        public static ProductDto MapToDto(Product product)
         {
             return new ProductDto
             {
                 Id = product.Id,
                 Upc = product.Upc,
-                ProductInfo = ProductInfoMapper.MapProductInfoToProductInfoDto(product.ProductInfo),
-                ProductPreparationInfo = ProductPreparationInfoMapper.MapProductPreparationInfoToProductPreparationInfoDto(product.ProductPreparationInfo),
+                ProductInfo = ProductInfoMapper.MapToDto(product.ProductInfo),
+                ProductPreparationInfo = ProductPreparationInfoMapper.MapToDto(product.ProductPreparationInfo),
 
                
                 Quantity = product.Quantity,
                 ShelfLocationId = product.ShelfLocationId,
-                ShelfLocation = ShelfLocationMapper.MapShelfLocationToShelfLocationDto(product.ShelfLocation)
+                ShelfLocation = ShelfLocationMapper.MapToDto(product.ShelfLocation),
+
+                CreatedDateTime = product.CreatedDateTime,
+                ModifiedDateTime = product.ModifiedDateTime
             };
         }
 
-        public static IEnumerable<ProductDto> MapProductToProductDto(IEnumerable<Product> products)
+        public static IEnumerable<ProductDto> MapToDto(IEnumerable<Product> products)
         {
-            var productDtos = products.Select(x => MapProductToProductDto(x));
+            var productDtos = products.Select(x => MapToDto(x));
             return productDtos;
         }
     }

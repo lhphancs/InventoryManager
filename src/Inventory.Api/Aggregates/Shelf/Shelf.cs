@@ -34,7 +34,8 @@ namespace Inventory.Api.Aggregates.Shelf
 
         public string Name { get; private set; }
         public string Description { get; private set; }
-
-        public virtual List<ShelfLocation> ShelfLocations {get; set;}
+        public DateTime CreatedDateTime { get; private set; }
+        public DateTime ModifiedDateTime { get; private set; }
+        public virtual ICollection<ShelfLocation> ShelfLocations {get; set;}
     }
 }

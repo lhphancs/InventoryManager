@@ -1,9 +1,11 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Aggregates.Shelf;
 using Inventory.Api.Events.DomainEvents;
+using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
 using Inventory.Api.SeedWork;
 using Inventory.Api.ValueObjects;
 using System;
+using System.Collections.Generic;
 
 namespace Inventory.Api.Aggregates
 {
@@ -74,5 +76,6 @@ namespace Inventory.Api.Aggregates
         public DateTime ModifiedDateTime { get; private set; }
 
         public virtual ShelfLocation ShelfLocation { get; private set; }
+        public virtual ICollection<ProductWholesaler> ProductWholesalers { get; private set; }
     }
 }

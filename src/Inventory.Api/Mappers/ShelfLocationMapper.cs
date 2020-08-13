@@ -7,7 +7,7 @@ namespace Inventory.Api.Mappers
 {
     public static class ShelfLocationMapper
     {
-        public static ShelfLocationDto MapShelfLocationToShelfLocationDto(ShelfLocation shelfLocation)
+        public static ShelfLocationDto MapToDto(ShelfLocation shelfLocation)
         {
             if (shelfLocation == null)
             {
@@ -21,9 +21,9 @@ namespace Inventory.Api.Mappers
                 Position = shelfLocation.Position
             };
         }
-        public static IEnumerable<ShelfLocationDto> MapShelfLocationToShelfLocationDto(IEnumerable<ShelfLocation> shelfLocations)
+        public static IEnumerable<ShelfLocationDto> MapToDto(IEnumerable<ShelfLocation> shelfLocations)
         {
-            var shelfLocationDtos = shelfLocations.Select(x => MapShelfLocationToShelfLocationDto(x));
+            var shelfLocationDtos = shelfLocations.Select(x => MapToDto(x));
             return shelfLocationDtos;
         }
     }

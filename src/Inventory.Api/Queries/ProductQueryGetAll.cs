@@ -28,7 +28,7 @@ namespace Inventory.Api.Queries
             public async Task<IEnumerable<ProductDto>> Handle(ProductQueryGetAll request, CancellationToken cancellationToken)
             {
                 var products = await _context.Products.ToListAsync();
-                var productDtos = ProductMapper.MapProductToProductDto(products);
+                var productDtos = ProductMapper.MapToDto(products);
                 return productDtos;
             }
         }

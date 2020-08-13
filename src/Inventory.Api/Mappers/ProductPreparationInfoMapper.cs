@@ -7,7 +7,7 @@ namespace Inventory.Api.Mappers
 {
     public static class ProductPreparationInfoMapper
     {
-        public static ProductPreparationInfoDto MapProductPreparationInfoToProductPreparationInfoDto(ProductPreparationInfo productPreparationInfo)
+        public static ProductPreparationInfoDto MapToDto(ProductPreparationInfo productPreparationInfo)
         {
             return new ProductPreparationInfoDto
             {
@@ -17,9 +17,9 @@ namespace Inventory.Api.Mappers
             };
         }
 
-        public static IEnumerable<ProductPreparationInfoDto> MapProductPreparationInfoToProductPreparationInfoDto(IEnumerable<ProductPreparationInfo> productPreparationInfos)
+        public static IEnumerable<ProductPreparationInfoDto> MapToDto(IEnumerable<ProductPreparationInfo> productPreparationInfos)
         {
-            var productPreparationInfoDtos = productPreparationInfos.Select(x => MapProductPreparationInfoToProductPreparationInfoDto(x));
+            var productPreparationInfoDtos = productPreparationInfos.Select(x => MapToDto(x));
             return productPreparationInfoDtos;
         }
     }

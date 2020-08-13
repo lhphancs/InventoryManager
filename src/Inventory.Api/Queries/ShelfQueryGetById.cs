@@ -28,7 +28,7 @@ namespace Inventory.Api.Queries
             public async Task<ShelfDto> Handle(ShelfQueryGetById request, CancellationToken cancellationToken)
             {
                 var shelf = await _context.Shelfs.FirstOrDefaultAsync(x => x.Id == request.Id);
-                var shelfDto = ShelfMapper.MapShelfToShelfDto(shelf);
+                var shelfDto = ShelfMapper.MapToDto(shelf);
                 return shelfDto;
             }
         }
