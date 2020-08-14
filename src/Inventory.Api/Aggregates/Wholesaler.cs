@@ -36,7 +36,7 @@ namespace Inventory.Api.Aggregates
             Products.Remove(product);
         }
 
-        public Address Address { get; private set; }
+        public Address Address { get; set; }
 
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }

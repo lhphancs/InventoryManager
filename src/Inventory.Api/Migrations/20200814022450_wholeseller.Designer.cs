@@ -3,14 +3,16 @@ using System;
 using Inventory.Api.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20200814022450_wholeseller")]
+    partial class wholeseller
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,15 +206,6 @@ namespace Inventory.Api.Migrations
                             b1.Property<int>("WholesalerId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("ZipCode")
-                                .HasColumnType("text");
 
                             b1.HasKey("WholesalerId");
 
