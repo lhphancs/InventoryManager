@@ -15,7 +15,6 @@ namespace Inventory.Api.Aggregates
 
         public Product(ProductDto productDto)
         {
-            Upc = productDto.Upc;
             UpdateProductInfo(productDto.ProductInfo);
             UpdateProductPreparationInfo(productDto.ProductPreparationInfo);
 
@@ -65,7 +64,6 @@ namespace Inventory.Api.Aggregates
             AddDomainEvent(new ProductQuantityChangeEvent(Id, companyName, changeAmt, DateTime.UtcNow));
         }
 
-        public string Upc { get; private set; }
         public ProductInfo ProductInfo { get; private set; }
         public ProductPreparationInfo ProductPreparationInfo { get; private set; }
 

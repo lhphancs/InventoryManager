@@ -5,7 +5,6 @@ namespace Inventory.Abstraction.Dto
     public class ProductDto
     {
         public int Id { get; set; }
-        public string Upc { get; set; }
 
         public ProductInfoDto ProductInfo { get; set; }
         public ProductPreparationInfoDto ProductPreparationInfo { get; set; }

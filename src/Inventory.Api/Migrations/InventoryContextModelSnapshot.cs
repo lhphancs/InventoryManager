@@ -35,18 +35,12 @@ namespace Inventory.Api.Migrations
                     b.Property<int?>("ShelfLocationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Upc")
-                        .HasColumnType("varchar(767)");
-
                     b.Property<int?>("WholesalerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShelfLocationId")
-                        .IsUnique();
-
-                    b.HasIndex("Upc")
                         .IsUnique();
 
                     b.HasIndex("WholesalerId");
@@ -156,7 +150,13 @@ namespace Inventory.Api.Migrations
                             b1.Property<int>("OunceWeight")
                                 .HasColumnType("int");
 
+                            b1.Property<string>("Upc")
+                                .HasColumnType("varchar(767)");
+
                             b1.HasKey("ProductId");
+
+                            b1.HasIndex("Upc")
+                                .IsUnique();
 
                             b1.ToTable("Products");
 

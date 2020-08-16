@@ -43,8 +43,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateInfo(int id, [FromBody] ProductInfoDto productInfoDto)
         {
-            await _mediator.Send(new ProductCommandUpdateInfo(id, productInfoDto));
-            return Ok();
+            var updatedProductDto = await _mediator.Send(new ProductCommandUpdateInfo(id, productInfoDto));
+            return Ok(updatedProductDto);
         }
         
         [HttpDelete("{id}/")]

@@ -10,13 +10,14 @@ namespace Inventory.Api.ValueObjects
 
         public ProductInfo(ProductInfoDto productInfoDto)
         {
+            Upc = productInfoDto.Upc;
             Brand = productInfoDto.Brand;
             Name = productInfoDto.Name;
             Description = productInfoDto.Description;
             ExpirationLocation = productInfoDto.ExpirationLocation;
             OunceWeight = productInfoDto.OunceWeight;
         }
-
+        public string Upc { get; private set; }
         public string Brand { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }

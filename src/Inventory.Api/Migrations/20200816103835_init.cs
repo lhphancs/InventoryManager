@@ -4,22 +4,41 @@ using MySql.Data.EntityFrameworkCore.Metadata;
 
 namespace Inventory.Api.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Shelf",
+                name: "Shelfs",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shelf", x => x.Id);
+                    table.PrimaryKey("PK_Shelfs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wholesalers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Address_Street = table.Column<string>(nullable: true),
+                    Address_City = table.Column<string>(nullable: true),
+                    Address_ZipCode = table.Column<string>(nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    ModifiedDateTime = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wholesalers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,9 +53,9 @@ namespace Inventory.Api.Migrations
                 {
                     table.PrimaryKey("PK_ShelfLocation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShelfLocation_Shelf_Id",
+                        name: "FK_ShelfLocation_Shelfs_Id",
                         column: x => x.Id,
-                        principalTable: "Shelf",
+                        principalTable: "Shelfs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -47,7 +66,7 @@ namespace Inventory.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Upc = table.Column<string>(nullable: true),
+                    ProductInfo_Upc = table.Column<string>(nullable: true),
                     ProductInfo_Brand = table.Column<string>(nullable: true),
                     ProductInfo_Name = table.Column<string>(nullable: true),
                     ProductInfo_Description = table.Column<string>(nullable: true),
@@ -59,7 +78,8 @@ namespace Inventory.Api.Migrations
                     Quantity = table.Column<int>(nullable: false),
                     ShelfLocationId = table.Column<int>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedDateTime = table.Column<DateTime>(nullable: false)
+                    ModifiedDateTime = table.Column<DateTime>(nullable: false),
+                    WholesalerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -70,6 +90,36 @@ namespace Inventory.Api.Migrations
                         principalTable: "ShelfLocation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Wholesalers_WholesalerId",
+                        column: x => x.WholesalerId,
+                        principalTable: "Wholesalers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductWholesaler",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    WholesalerId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductWholesaler", x => new { x.ProductId, x.WholesalerId });
+                    table.ForeignKey(
+                        name: "FK_ProductWholesaler_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductWholesaler_Wholesalers_WholesalerId",
+                        column: x => x.WholesalerId,
+                        principalTable: "Wholesalers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -79,14 +129,27 @@ namespace Inventory.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_Upc",
+                name: "IX_Products_WholesalerId",
                 table: "Products",
-                column: "Upc",
+                column: "WholesalerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductInfo_Upc",
+                table: "Products",
+                column: "ProductInfo_Upc",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductWholesaler_WholesalerId",
+                table: "ProductWholesaler",
+                column: "WholesalerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ProductWholesaler");
+
             migrationBuilder.DropTable(
                 name: "Products");
 
@@ -94,7 +157,10 @@ namespace Inventory.Api.Migrations
                 name: "ShelfLocation");
 
             migrationBuilder.DropTable(
-                name: "Shelf");
+                name: "Wholesalers");
+
+            migrationBuilder.DropTable(
+                name: "Shelfs");
         }
     }
 }

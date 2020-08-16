@@ -11,6 +11,7 @@ namespace Inventory.Api.Mappers
         {
             return new ProductInfoDto
             {
+                Upc = productInfo.Upc,
                 Brand = productInfo.Brand,
                 Name = productInfo.Name,
                 Description = productInfo.Description,

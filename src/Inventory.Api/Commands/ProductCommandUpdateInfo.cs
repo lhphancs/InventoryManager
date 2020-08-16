@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Inventory.Abstraction.Dto;
+using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Commands
 {
-    public class ProductCommandUpdateInfo : IRequest
+    public class ProductCommandUpdateInfo : IRequest<ProductDto>
     {
         private readonly int Id;
         private readonly ProductInfoDto ProductInfoDto;
@@ -18,7 +19,7 @@ namespace Inventory.Api.Commands
             ProductInfoDto = productInfoDto;
         }
 
-        public class ProductCommandUpdateInfoHandler : IRequestHandler<ProductCommandUpdateInfo>
+        public class ProductCommandUpdateInfoHandler : IRequestHandler<ProductCommandUpdateInfo, ProductDto>
         {
             private readonly InventoryContext _context;
 
@@ -27,7 +28,7 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(ProductCommandUpdateInfo request, CancellationToken cancellationToken)
+            public async Task<ProductDto> Handle(ProductCommandUpdateInfo request, CancellationToken cancellationToken)
             {
                 var product = _context.Products.FirstOrDefault(x => x.Id == request.Id);
                 if (product == null)
@@ -37,7 +38,7 @@ namespace Inventory.Api.Commands
                 product.UpdateProductInfo(request.ProductInfoDto);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return ProductMapper.MapToDto(product);
             }
         }
     }

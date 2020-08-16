@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20200803221220_Init")]
-    partial class Init
+    [Migration("20200816103835_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,16 +37,15 @@ namespace Inventory.Api.Migrations
                     b.Property<int?>("ShelfLocationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Upc")
-                        .HasColumnType("varchar(767)");
+                    b.Property<int?>("WholesalerId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ShelfLocationId")
                         .IsUnique();
 
-                    b.HasIndex("Upc")
-                        .IsUnique();
+                    b.HasIndex("WholesalerId");
 
                     b.ToTable("Products");
                 });
@@ -57,15 +56,21 @@ namespace Inventory.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("ModifiedDateTime")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Shelf");
+                    b.ToTable("Shelfs");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
@@ -84,11 +89,47 @@ namespace Inventory.Api.Migrations
                     b.ToTable("ShelfLocation");
                 });
 
+            modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("ModifiedDateTime")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wholesalers");
+                });
+
+            modelBuilder.Entity("Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses.ProductWholesaler", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WholesalerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "WholesalerId");
+
+                    b.HasIndex("WholesalerId");
+
+                    b.ToTable("ProductWholesaler");
+                });
+
             modelBuilder.Entity("Inventory.Api.Aggregates.Product", b =>
                 {
                     b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", "ShelfLocation")
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
+
+                    b.HasOne("Inventory.Api.Aggregates.Wholesaler", null)
+                        .WithMany("Products")
+                        .HasForeignKey("WholesalerId");
 
                     b.OwnsOne("Inventory.Api.ValueObjects.ProductInfo", "ProductInfo", b1 =>
                         {
@@ -111,7 +152,13 @@ namespace Inventory.Api.Migrations
                             b1.Property<int>("OunceWeight")
                                 .HasColumnType("int");
 
+                            b1.Property<string>("Upc")
+                                .HasColumnType("varchar(767)");
+
                             b1.HasKey("ProductId");
+
+                            b1.HasIndex("Upc")
+                                .IsUnique();
 
                             b1.ToTable("Products");
 
@@ -148,6 +195,47 @@ namespace Inventory.Api.Migrations
                     b.HasOne("Inventory.Api.Aggregates.Shelf.Shelf", null)
                         .WithMany("ShelfLocations")
                         .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>
+                {
+                    b.OwnsOne("Inventory.Api.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<int>("WholesalerId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("text");
+
+                            b1.HasKey("WholesalerId");
+
+                            b1.ToTable("Wholesalers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("WholesalerId");
+                        });
+                });
+
+            modelBuilder.Entity("Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses.ProductWholesaler", b =>
+                {
+                    b.HasOne("Inventory.Api.Aggregates.Product", "Product")
+                        .WithMany("ProductWholesalers")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Inventory.Api.Aggregates.Wholesaler", "Wholesaler")
+                        .WithMany("ProductWholesalers")
+                        .HasForeignKey("WholesalerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

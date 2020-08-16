@@ -30,7 +30,7 @@ namespace Inventory.Api.Commands
             public async Task<Unit> Handle(ProductCommandReceive request, CancellationToken cancellationToken)
             {
                 var upcOfProductToUpdate = request.ProductQuantityChangeInfo.Upc;
-                var product = _context.Products.FirstOrDefault(x => x.Upc == upcOfProductToUpdate);
+                var product = _context.Products.FirstOrDefault(x => x.ProductInfo.Upc == upcOfProductToUpdate);
                 if (product == null)
                 {
                     throw new InvalidOperationException($"'{upcOfProductToUpdate}' not found");
