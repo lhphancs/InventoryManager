@@ -22,8 +22,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var productDto = await _mediator.Send(new ProductQueryGetById(id));
-            return Ok(productDto);
+            var product = await _mediator.Send(new ProductQueryGetById(id));
+            return Ok(product);
         }
 
         [HttpGet]
@@ -36,8 +36,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProductDto productDto)
         {
-            await _mediator.Send(new ProductCommandCreate(productDto));
-            return Ok();
+            var product = await _mediator.Send(new ProductCommandCreate(productDto));
+            return Ok(product);
         }
 
         [HttpPatch("{id}")]
@@ -57,8 +57,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpPatch("receive")]
         public async Task<IActionResult> Receive([FromBody] ProductQuantityChangeInfo productQuantityChangeInfo)
         {
-            await _mediator.Send(new ProductCommandReceive(productQuantityChangeInfo));
-            return Ok();
+            var productDto = await _mediator.Send(new ProductCommandReceive(productQuantityChangeInfo));
+            return Ok(productDto);
         }
 
     }

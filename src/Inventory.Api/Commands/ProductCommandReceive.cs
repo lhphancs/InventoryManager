@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Inventory.Api.ValueObjects;
+using Inventory.Abstraction.Dto;
+using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Commands
 {
-    public class ProductCommandReceive : IRequest
+    public class ProductCommandReceive : IRequest<ProductDto>
     {
         private readonly ProductQuantityChangeInfo ProductQuantityChangeInfo;
 
@@ -18,7 +20,7 @@ namespace Inventory.Api.Commands
             ProductQuantityChangeInfo = productQuantityChangeInfo;
         }
 
-        public class ProductCommandUpdateQuantityHandler : IRequestHandler<ProductCommandReceive>
+        public class ProductCommandUpdateQuantityHandler : IRequestHandler<ProductCommandReceive, ProductDto>
         {
             private readonly InventoryContext _context;
 
@@ -27,7 +29,7 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(ProductCommandReceive request, CancellationToken cancellationToken)
+            public async Task<ProductDto> Handle(ProductCommandReceive request, CancellationToken cancellationToken)
             {
                 var upcOfProductToUpdate = request.ProductQuantityChangeInfo.Upc;
                 var product = _context.Products.FirstOrDefault(x => x.ProductInfo.Upc == upcOfProductToUpdate);
@@ -38,7 +40,7 @@ namespace Inventory.Api.Commands
                 product.RecieveIn(request.ProductQuantityChangeInfo);
                 await _context.SaveEntitiesAsync(cancellationToken);
 
-                return Unit.Value;
+                return ProductMapper.MapToDto(product);
             }
         }
     }

@@ -4,10 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Inventory.Api.Aggregates;
 using Inventory.Abstraction.Dto;
+using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Commands
 {
-    public class ProductCommandCreate : IRequest
+    public class ProductCommandCreate : IRequest<ProductDto>
     {
         private readonly ProductDto ProductDto;
         public ProductCommandCreate(ProductDto productDto)
@@ -15,7 +16,7 @@ namespace Inventory.Api.Commands
             ProductDto = productDto;
         }
 
-        public class ProductCommandCreateHandler : IRequestHandler<ProductCommandCreate>
+        public class ProductCommandCreateHandler : IRequestHandler<ProductCommandCreate, ProductDto>
         {
             private readonly InventoryContext _context;
 
@@ -24,14 +25,14 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
+            public async Task<ProductDto> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
             {
                 var product = new Product(request.ProductDto);
                 _context.Products.Add(product);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return ProductMapper.MapToDto(product);
             }
         }
     }
