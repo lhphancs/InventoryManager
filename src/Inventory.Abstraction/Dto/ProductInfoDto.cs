@@ -8,5 +8,8 @@
         public string Description { get; set; }
         public string ExpirationLocation { get; set; }
         public int OunceWeight { get; set; }
+        public bool RequiresPadding { get; set; }
+        public bool RequiresBubbleWrap { get; set; }
+        public bool RequiresBox { get; set; }
     }
 }

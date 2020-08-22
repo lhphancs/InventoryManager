@@ -16,7 +16,10 @@ namespace Inventory.Api.Mappers
                 Name = productInfo.Name,
                 Description = productInfo.Description,
                 ExpirationLocation = productInfo.ExpirationLocation,
-                OunceWeight = productInfo.OunceWeight
+                OunceWeight = productInfo.OunceWeight,
+                RequiresBox = productInfo.RequiresBox,
+                RequiresBubbleWrap = productInfo.RequiresBubbleWrap,
+                RequiresPadding = productInfo.RequiresPadding
             };
         }
 

@@ -13,7 +13,6 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
             {
                 x.HasIndex(x => x.Upc).IsUnique();
             });
-            builder.OwnsOne(x => x.ProductPreparationInfo);
         }
     }
 }

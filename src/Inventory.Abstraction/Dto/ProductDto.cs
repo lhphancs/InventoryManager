@@ -7,7 +7,6 @@ namespace Inventory.Abstraction.Dto
         public int Id { get; set; }
 
         public ProductInfoDto ProductInfo { get; set; }
-        public ProductPreparationInfoDto ProductPreparationInfo { get; set; }
         public int Quantity { get; set; }
         public int? ShelfLocationId { get; set; }
         public ShelfLocationDto ShelfLocation { get; set; }

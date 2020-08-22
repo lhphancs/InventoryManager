@@ -13,7 +13,6 @@ namespace Inventory.Api.Mappers
             {
                 Id = product.Id,
                 ProductInfo = ProductInfoMapper.MapToDto(product.ProductInfo),
-                ProductPreparationInfo = ProductPreparationInfoMapper.MapToDto(product.ProductPreparationInfo),
 
                
                 Quantity = product.Quantity,

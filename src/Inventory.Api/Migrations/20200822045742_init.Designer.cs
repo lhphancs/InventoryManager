@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20200816103835_init")]
+    [Migration("20200822045742_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,26 +152,6 @@ namespace Inventory.Api.Migrations
                             b1.Property<int>("OunceWeight")
                                 .HasColumnType("int");
 
-                            b1.Property<string>("Upc")
-                                .HasColumnType("varchar(767)");
-
-                            b1.HasKey("ProductId");
-
-                            b1.HasIndex("Upc")
-                                .IsUnique();
-
-                            b1.ToTable("Products");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProductId");
-                        });
-
-                    b.OwnsOne("Inventory.Api.ValueObjects.ProductPreparationInfo", "ProductPreparationInfo", b1 =>
-                        {
-                            b1.Property<int>("ProductId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
                             b1.Property<bool>("RequiresBox")
                                 .HasColumnType("bit");
 
@@ -181,7 +161,13 @@ namespace Inventory.Api.Migrations
                             b1.Property<bool>("RequiresPadding")
                                 .HasColumnType("bit");
 
+                            b1.Property<string>("Upc")
+                                .HasColumnType("varchar(767)");
+
                             b1.HasKey("ProductId");
+
+                            b1.HasIndex("Upc")
+                                .IsUnique();
 
                             b1.ToTable("Products");
 

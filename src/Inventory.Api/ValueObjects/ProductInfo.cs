@@ -16,6 +16,9 @@ namespace Inventory.Api.ValueObjects
             Description = productInfoDto.Description;
             ExpirationLocation = productInfoDto.ExpirationLocation;
             OunceWeight = productInfoDto.OunceWeight;
+            RequiresBubbleWrap = productInfoDto.RequiresBubbleWrap;
+            RequiresPadding = productInfoDto.RequiresPadding;
+            RequiresBox = productInfoDto.RequiresBox;
         }
         public string Upc { get; private set; }
         public string Brand { get; private set; }
@@ -23,6 +26,9 @@ namespace Inventory.Api.ValueObjects
         public string Description { get; private set; }
         public string ExpirationLocation { get; private set; }
         public int OunceWeight { get; private set; }
+        public bool RequiresBubbleWrap { get; private set; }
+        public bool RequiresPadding { get; private set; }
+        public bool RequiresBox { get; private set; }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
@@ -31,6 +37,9 @@ namespace Inventory.Api.ValueObjects
             yield return Description;
             yield return ExpirationLocation;
             yield return OunceWeight;
+            yield return RequiresBubbleWrap;
+            yield return RequiresPadding;
+            yield return RequiresBox;
         }
     }
 }

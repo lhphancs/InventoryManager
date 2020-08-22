@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Inventory.Abstraction.Dto;
 using Inventory.Api.Mappers;
+using System.Collections.Generic;
 
 namespace Inventory.Api.Queries
 {
@@ -28,6 +29,12 @@ namespace Inventory.Api.Queries
             public async Task<ProductDto> Handle(ProductQueryGetById request, CancellationToken cancellationToken)
             {
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if (product == null)
+                {
+                    throw new KeyNotFoundException($"Product Id {request.Id} not found.");
+                }
+
                 var productDto = ProductMapper.MapToDto(product);
                 return productDto;
             }

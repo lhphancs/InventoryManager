@@ -16,7 +16,6 @@ namespace Inventory.Api.Aggregates
         public Product(ProductDto productDto)
         {
             UpdateProductInfo(productDto.ProductInfo);
-            UpdateProductPreparationInfo(productDto.ProductPreparationInfo);
 
             Quantity = productDto.Quantity;
 
@@ -27,13 +26,6 @@ namespace Inventory.Api.Aggregates
         public void UpdateProductInfo(ProductInfoDto productInfoDto)
         {
             ProductInfo = new ProductInfo(productInfoDto);
-
-            ModifiedDateTime = CreatedDateTime;
-        }
-
-        public void UpdateProductPreparationInfo(ProductPreparationInfoDto productPreparationInfoDto)
-        {
-            ProductPreparationInfo = new ProductPreparationInfo(productPreparationInfoDto);
 
             ModifiedDateTime = CreatedDateTime;
         }
@@ -65,7 +57,6 @@ namespace Inventory.Api.Aggregates
         }
 
         public ProductInfo ProductInfo { get; private set; }
-        public ProductPreparationInfo ProductPreparationInfo { get; private set; }
 
         public int Quantity { get; private set; }
         public int? ShelfLocationId { get; private set; }
