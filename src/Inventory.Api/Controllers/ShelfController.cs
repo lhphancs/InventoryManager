@@ -46,7 +46,7 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch("{id}/add-shelf-location")]
+        [HttpPut("{id}/add-shelf-location")]
         public async Task<IActionResult> Receive(int shelfId, [FromBody] ShelfLocationDto shelfLocationDto)
         {
             await _mediator.Send(new ShelfCommandAddShelfLocation(shelfId, shelfLocationDto.Row, shelfLocationDto.Position));

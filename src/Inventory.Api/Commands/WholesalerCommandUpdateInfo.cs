@@ -5,21 +5,20 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Inventory.Abstraction.Dto;
-using Inventory.Api.ValueObjects;
 
 namespace Inventory.Api.Commands
 {
-    public class WholesalerCommandUpdateAddress : IRequest
+    public class WholesalerCommandUpdateInfo : IRequest
     {
         private readonly int Id;
-        private readonly Address Address;
-        public WholesalerCommandUpdateAddress(int id, AddressDto addressDto)
+        private readonly WholesalerInfoDto WholesalerInfoDto;
+        public WholesalerCommandUpdateInfo(int id, WholesalerInfoDto wholesalerInfoDto)
         {
             Id = id;
-            Address = new Address(addressDto.City, addressDto.Street, addressDto.ZipCode);
+            WholesalerInfoDto = wholesalerInfoDto;
         }
 
-        public class WholesalerCommandUpdateAddressHandler : IRequestHandler<WholesalerCommandUpdateAddress>
+        public class WholesalerCommandUpdateAddressHandler : IRequestHandler<WholesalerCommandUpdateInfo>
         {
             private readonly InventoryContext _context;
 
@@ -28,14 +27,14 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(WholesalerCommandUpdateAddress request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(WholesalerCommandUpdateInfo request, CancellationToken cancellationToken)
             {
                 var wholesaler = _context.Wholesalers.FirstOrDefault(x => x.Id == request.Id);
                 if (wholesaler == null)
                 {
                     throw new InvalidOperationException($"WholesalerId '{request.Id}' not found");
                 }
-                wholesaler.UpdateAddress(request.Address);
+                wholesaler.UpdateWholesalerInfo(request.WholesalerInfoDto);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

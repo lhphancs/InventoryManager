@@ -12,12 +12,7 @@ namespace Inventory.Api.Mappers
             return new WholesalerDto
             {
                 Id = wholesaler.Id,
-                Address = new AddressDto
-                {
-                    City = wholesaler.Address.City,
-                    Street = wholesaler.Address.Street,
-                    ZipCode = wholesaler.Address.ZipCode
-                },
+                WholesalerInfo = WholesalerInfoMapper.MapToDto(wholesaler.WholesalerInfo),
                 Products = ProductMapper.MapToDto(wholesaler.Products),
                 CreatedDateTime = wholesaler.CreatedDateTime,
                 ModifiedDateTime = wholesaler.ModifiedDateTime

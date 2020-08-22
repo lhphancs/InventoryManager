@@ -33,10 +33,17 @@ namespace Inventory.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AddressDto addressDto)
+        public async Task<IActionResult> Create([FromBody] WholesalerInfoDto wholesalerInfoDto)
         {
-            await _mediator.Send(new WholesalerCommandCreate(addressDto));
+            await _mediator.Send(new WholesalerCommandCreate(wholesalerInfoDto));
             return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateInfo(int id, [FromBody] WholesalerInfoDto wholesalerInfoDto)
+        {
+            var updatedWholesalerDto = await _mediator.Send(new WholesalerCommandUpdateInfo(id, wholesalerInfoDto));
+            return Ok(updatedWholesalerDto);
         }
 
         [HttpDelete("{id}/")]

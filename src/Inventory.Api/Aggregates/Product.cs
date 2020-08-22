@@ -13,11 +13,11 @@ namespace Inventory.Api.Aggregates
     {
         public Product() { }
 
-        public Product(ProductDto productDto)
+        public Product(ProductInfoDto productInfoDto)
         {
-            UpdateProductInfo(productDto.ProductInfo);
+            UpdateProductInfo(productInfoDto);
 
-            Quantity = productDto.Quantity;
+            Quantity = 0;
 
             CreatedDateTime = DateTime.UtcNow;
             ModifiedDateTime = CreatedDateTime;

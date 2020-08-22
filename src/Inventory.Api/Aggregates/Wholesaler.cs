@@ -1,4 +1,5 @@
-﻿using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
+﻿using Inventory.Abstraction.Dto;
+using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
 using Inventory.Api.SeedWork;
 using Inventory.Api.ValueObjects;
 using System;
@@ -10,19 +11,19 @@ namespace Inventory.Api.Aggregates
     {
         public Wholesaler() { }
 
-        public Wholesaler(Address address)
+        public Wholesaler(WholesalerInfoDto wholesalerInfoDto)
         {
-            Address = address;
+            UpdateWholesalerInfo(wholesalerInfoDto);
 
             CreatedDateTime = DateTime.UtcNow;
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void UpdateAddress(Address address)
+        public void UpdateWholesalerInfo(WholesalerInfoDto wholesalerInfoDto)
         {
-            Address = address;
+            WholesalerInfo = new WholesalerInfo(wholesalerInfoDto);
 
-            ModifiedDateTime = DateTime.UtcNow;
+            ModifiedDateTime = CreatedDateTime;
         }
 
         public void AddProduct(Product product)
@@ -36,7 +37,7 @@ namespace Inventory.Api.Aggregates
             Products.Remove(product);
         }
 
-        public Address Address { get; set; }
+        public WholesalerInfo WholesalerInfo { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }

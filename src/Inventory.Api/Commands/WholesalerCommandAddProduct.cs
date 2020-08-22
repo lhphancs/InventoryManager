@@ -1,7 +1,4 @@
-﻿using Inventory.Abstraction.Dto;
-using Inventory.Api.Aggregates;
-using Inventory.Api.Infrastructure;
-using Inventory.Api.ValueObjects;
+﻿using Inventory.Api.Infrastructure;
 using MediatR;
 using System;
 using System.Linq;

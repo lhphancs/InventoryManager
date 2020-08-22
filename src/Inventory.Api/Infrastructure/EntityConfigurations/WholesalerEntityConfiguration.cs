@@ -9,7 +9,7 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Wholesaler> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.OwnsOne(x => x.Address);
+            builder.OwnsOne(x => x.WholesalerInfo);
         }
     }
 }

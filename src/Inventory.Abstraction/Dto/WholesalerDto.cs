@@ -6,7 +6,7 @@ namespace Inventory.Abstraction.Dto
     public class WholesalerDto
     {
         public int Id { get; set; }
-        public AddressDto Address { get; set; }
+        public WholesalerInfoDto WholesalerInfo { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }
