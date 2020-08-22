@@ -6,6 +6,8 @@ namespace Inventory.Api.ValueObjects
 {
     public class WholesalerInfo : ValueObject
     {
+        public WholesalerInfo() { }
+
         public WholesalerInfo(WholesalerInfoDto wholesalerInfoDto)
         {
             Name = wholesalerInfoDto.Name;

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20200822045742_init")]
+    [Migration("20200822185248_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,27 +187,47 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>
                 {
-                    b.OwnsOne("Inventory.Api.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("Inventory.Api.ValueObjects.WholesalerInfo", "WholesalerInfo", b1 =>
                         {
                             b1.Property<int>("WholesalerId")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int");
 
-                            b1.Property<string>("City")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("text");
-
-                            b1.Property<string>("ZipCode")
-                                .HasColumnType("text");
+                            b1.Property<string>("Name")
+                                .HasColumnType("varchar(767)");
 
                             b1.HasKey("WholesalerId");
+
+                            b1.HasIndex("Name")
+                                .IsUnique();
 
                             b1.ToTable("Wholesalers");
 
                             b1.WithOwner()
                                 .HasForeignKey("WholesalerId");
+
+                            b1.OwnsOne("Inventory.Api.ValueObjects.Address", "Address", b2 =>
+                                {
+                                    b2.Property<int>("WholesalerInfoWholesalerId")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("int");
+
+                                    b2.Property<string>("City")
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("Street")
+                                        .HasColumnType("text");
+
+                                    b2.Property<string>("ZipCode")
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("WholesalerInfoWholesalerId");
+
+                                    b2.ToTable("Wholesalers");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("WholesalerInfoWholesalerId");
+                                });
                         });
                 });
 

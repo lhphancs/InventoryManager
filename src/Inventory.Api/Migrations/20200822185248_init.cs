@@ -30,9 +30,10 @@ namespace Inventory.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Address_Street = table.Column<string>(nullable: true),
-                    Address_City = table.Column<string>(nullable: true),
-                    Address_ZipCode = table.Column<string>(nullable: true),
+                    WholesalerInfo_Name = table.Column<string>(nullable: true),
+                    WholesalerInfo_Address_Street = table.Column<string>(nullable: true),
+                    WholesalerInfo_Address_City = table.Column<string>(nullable: true),
+                    WholesalerInfo_Address_ZipCode = table.Column<string>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
@@ -143,6 +144,12 @@ namespace Inventory.Api.Migrations
                 name: "IX_ProductWholesaler_WholesalerId",
                 table: "ProductWholesaler",
                 column: "WholesalerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wholesalers_WholesalerInfo_Name",
+                table: "Wholesalers",
+                column: "WholesalerInfo_Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
