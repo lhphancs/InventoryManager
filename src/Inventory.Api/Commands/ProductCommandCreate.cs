@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Inventory.Api.Aggregates;
 using Inventory.Abstraction.Dto;
 using Inventory.Api.Mappers;
+using System.Linq;
+using System;
 
 namespace Inventory.Api.Commands
 {
@@ -27,6 +29,12 @@ namespace Inventory.Api.Commands
 
             public async Task<ProductDto> Handle(ProductCommandCreate request, CancellationToken cancellationToken)
             {
+                var existingProductWithUpc = _context.Products.FirstOrDefault(x => x.ProductInfo.Upc == request.ProductDto.ProductInfo.Upc);
+                if (existingProductWithUpc != null)
+                {
+                    throw new InvalidOperationException($"Duplicate UPC: '{request.ProductDto.ProductInfo.Upc}'");
+                }
+
                 var product = new Product(request.ProductDto);
                 _context.Products.Add(product);
 

@@ -4,7 +4,7 @@ namespace Inventory.Abstraction.Dto
 {
     public class ProductDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public ProductInfoDto ProductInfo { get; set; }
         public int Quantity { get; set; }
