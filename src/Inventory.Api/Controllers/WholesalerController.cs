@@ -35,8 +35,8 @@ namespace Inventory.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] WholesalerInfoDto wholesalerInfoDto)
         {
-            await _mediator.Send(new WholesalerCommandCreate(wholesalerInfoDto));
-            return Ok();
+            var wholesaler = await _mediator.Send(new WholesalerCommandCreate(wholesalerInfoDto));
+            return Ok(wholesaler);
         }
 
         [HttpPatch("{id}")]
@@ -56,15 +56,15 @@ namespace Inventory.Api.Controllers
         [HttpPost("{id}/add-product/{pid}")]
         public async Task<IActionResult> AddProduct(int id, int pid)
         {
-            await _mediator.Send(new WholesalerCommandAddProduct(id, pid));
-            return Ok();
+            var wholesaler = await _mediator.Send(new WholesalerCommandAddProduct(id, pid));
+            return Ok(wholesaler);
         }
 
         [HttpDelete("{id}/remove-product/{pid}")]
         public async Task<IActionResult> RemoveProduct(int id, int pid)
         {
-            await _mediator.Send(new WholesalerCommandRemoveProduct(id, pid));
-            return Ok();
+            var wholesaler = await _mediator.Send(new WholesalerCommandRemoveProduct(id, pid));
+            return Ok(wholesaler);
         }
     }
 }

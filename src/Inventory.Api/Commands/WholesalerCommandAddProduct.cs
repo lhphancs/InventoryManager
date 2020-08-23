@@ -1,4 +1,6 @@
-﻿using Inventory.Api.Infrastructure;
+﻿using Inventory.Abstraction.Dto;
+using Inventory.Api.Infrastructure;
+using Inventory.Api.Mappers;
 using MediatR;
 using System;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.Api.Commands
 {
-    public class WholesalerCommandAddProduct : IRequest
+    public class WholesalerCommandAddProduct : IRequest<WholesalerDto>
     {
         private readonly int WholesalerId;
         private readonly int ProductId;
@@ -18,7 +20,7 @@ namespace Inventory.Api.Commands
             ProductId = productId;
         }
 
-        public class WholesalerCommandAddProductHandler : IRequestHandler<WholesalerCommandAddProduct>
+        public class WholesalerCommandAddProductHandler : IRequestHandler<WholesalerCommandAddProduct, WholesalerDto>
         {
             private readonly InventoryContext _context;
 
@@ -27,7 +29,7 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(WholesalerCommandAddProduct request, CancellationToken cancellationToken)
+            public async Task<WholesalerDto> Handle(WholesalerCommandAddProduct request, CancellationToken cancellationToken)
             {
                 var wholesaler = _context.Wholesalers.FirstOrDefault(x => x.Id == request.WholesalerId);
 
@@ -47,7 +49,7 @@ namespace Inventory.Api.Commands
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return WholesalerMapper.MapToDto(wholesaler);
             }
         }
     }

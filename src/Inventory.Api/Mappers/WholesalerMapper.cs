@@ -13,7 +13,7 @@ namespace Inventory.Api.Mappers
             {
                 Id = wholesaler.Id,
                 WholesalerInfo = WholesalerInfoMapper.MapToDto(wholesaler.WholesalerInfo),
-                Products = ProductMapper.MapToDto(wholesaler.Products),
+                Products = wholesaler.Products == null ? null : ProductMapper.MapToDto(wholesaler.Products),
                 CreatedDateTime = wholesaler.CreatedDateTime,
                 ModifiedDateTime = wholesaler.ModifiedDateTime
             };

@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Inventory.Abstraction.Dto;
+using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Commands
 {
-    public class WholesalerCommandUpdateInfo : IRequest
+    public class WholesalerCommandUpdateInfo : IRequest<WholesalerDto>
     {
         private readonly int Id;
         private readonly WholesalerInfoDto WholesalerInfoDto;
@@ -18,7 +19,7 @@ namespace Inventory.Api.Commands
             WholesalerInfoDto = wholesalerInfoDto;
         }
 
-        public class WholesalerCommandUpdateAddressHandler : IRequestHandler<WholesalerCommandUpdateInfo>
+        public class WholesalerCommandUpdateAddressHandler : IRequestHandler<WholesalerCommandUpdateInfo, WholesalerDto>
         {
             private readonly InventoryContext _context;
 
@@ -27,7 +28,7 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(WholesalerCommandUpdateInfo request, CancellationToken cancellationToken)
+            public async Task<WholesalerDto> Handle(WholesalerCommandUpdateInfo request, CancellationToken cancellationToken)
             {
                 var wholesaler = _context.Wholesalers.FirstOrDefault(x => x.Id == request.Id);
                 if (wholesaler == null)
@@ -37,7 +38,7 @@ namespace Inventory.Api.Commands
                 wholesaler.UpdateWholesalerInfo(request.WholesalerInfoDto);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return WholesalerMapper.MapToDto(wholesaler);
             }
         }
     }
