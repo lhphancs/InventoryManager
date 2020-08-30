@@ -3,6 +3,7 @@ using Inventory.Api.Commands;
 using Inventory.Api.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Inventory.Api.Controllers
@@ -53,17 +54,17 @@ namespace Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/add-product/{upc}")]
-        public async Task<IActionResult> AddProduct(int id, string upc)
+        [HttpPost("{id}/add-products")]
+        public async Task<IActionResult> AddProducts(int id, [FromBody] List<string> upcs)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandAddProduct(id, upc));
+            var wholesaler = await _mediator.Send(new WholesalerCommandAddProducts(id, upcs));
             return Ok(wholesaler);
         }
 
-        [HttpDelete("{id}/remove-product/{pid}")]
-        public async Task<IActionResult> RemoveProduct(int id, int pid)
+        [HttpDelete("{id}/remove-product")]
+        public async Task<IActionResult> RemoveProduct(int id, [FromBody] List<string> upcs)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandRemoveProduct(id, pid));
+            var wholesaler = await _mediator.Send(new WholesalerCommandRemoveProducts(id, upcs));
             return Ok(wholesaler);
         }
     }
