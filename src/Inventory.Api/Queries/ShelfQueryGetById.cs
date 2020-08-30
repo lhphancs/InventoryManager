@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Inventory.Abstraction.Dto;
 using Inventory.Api.Mappers;
+using System;
 
 namespace Inventory.Api.Queries
 {
@@ -28,6 +29,12 @@ namespace Inventory.Api.Queries
             public async Task<ShelfDto> Handle(ShelfQueryGetById request, CancellationToken cancellationToken)
             {
                 var shelf = await _context.Shelfs.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if (shelf == null)
+                {
+                    throw new InvalidOperationException($"ShelfId '{request.Id}' not found");
+                }
+
                 var shelfDto = ShelfMapper.MapToDto(shelf);
                 return shelfDto;
             }

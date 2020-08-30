@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Inventory.Abstraction.Dto;
 using Inventory.Api.Mappers;
+using System;
 
 namespace Inventory.Api.Queries
 {
@@ -27,8 +28,14 @@ namespace Inventory.Api.Queries
 
             public async Task<WholesalerDto> Handle(WholesalerQueryGetById request, CancellationToken cancellationToken)
             {
-                var Wholesaler = await _context.Wholesalers.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == request.Id);
-                var WholesalerDto = WholesalerMapper.MapToDto(Wholesaler);
+                var wholesaler = await _context.Wholesalers.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if (wholesaler == null)
+                {
+                    throw new InvalidOperationException($"WholesalerId '{request.Id}' not found");
+                }
+
+                var WholesalerDto = WholesalerMapper.MapToDto(wholesaler);
                 return WholesalerDto;
             }
         }
