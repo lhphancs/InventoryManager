@@ -12,12 +12,12 @@ namespace Inventory.Api.Commands
     public class WholesalerCommandAddProduct : IRequest<WholesalerDto>
     {
         private readonly int WholesalerId;
-        private readonly int ProductId;
+        private readonly string ProductUpc;
 
-        public WholesalerCommandAddProduct(int wholesalerId, int productId)
+        public WholesalerCommandAddProduct(int wholesalerId, string productUpc)
         {
             WholesalerId = wholesalerId;
-            ProductId = productId;
+            ProductUpc = productUpc;
         }
 
         public class WholesalerCommandAddProductHandler : IRequestHandler<WholesalerCommandAddProduct, WholesalerDto>
@@ -38,11 +38,11 @@ namespace Inventory.Api.Commands
                     throw new InvalidOperationException($"WholesalerId '{request.WholesalerId}' not found");
                 }
 
-                var product = _context.Products.FirstOrDefault(x => x.Id == request.ProductId);
+                var product = _context.Products.FirstOrDefault(x => x.ProductInfo.Upc == request.ProductUpc);
 
                 if (product == null)
                 {
-                    throw new InvalidOperationException($"ProductId '{request.ProductId}' not found");
+                    throw new InvalidOperationException($"ProductUpc '{request.ProductUpc}' not found");
                 }
 
                 wholesaler.AddProduct(product);

@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Inventory.Abstraction.Dto;
 using Inventory.Api.Mappers;
+using System.Linq;
 
 namespace Inventory.Api.Queries
 {
     public class WholesalerQueryGetAll : IRequest<IEnumerable<WholesalerDto>>
     {
-        public WholesalerQueryGetAll()
-        {
+        private readonly string Upc;
 
+        public WholesalerQueryGetAll(string upc)
+        {
+            Upc = upc;
         }
 
         public class WholesalerGetAllQueryHandler : IRequestHandler<WholesalerQueryGetAll, IEnumerable<WholesalerDto>>
@@ -27,9 +30,16 @@ namespace Inventory.Api.Queries
 
             public async Task<IEnumerable<WholesalerDto>> Handle(WholesalerQueryGetAll request, CancellationToken cancellationToken)
             {
-                var wholesalers = await _context.Wholesalers.ToListAsync();
-                var WholesalerDtos = WholesalerMapper.MapToDto(wholesalers);
-                return WholesalerDtos;
+                var query = _context.Wholesalers.AsQueryable();
+
+                if (!string.IsNullOrEmpty(request.Upc))
+                {
+                    query = query.Include(x => x.Products).Where(x => x.Products.Any(y => y.ProductInfo.Upc == request.Upc));
+                }
+                var wholesalers = await query.ToListAsync();
+
+                var wholesalerDtos = WholesalerMapper.MapToDto(wholesalers);
+                return wholesalerDtos;
             }
         }
     }

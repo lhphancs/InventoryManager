@@ -26,9 +26,9 @@ namespace Inventory.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string upc)
         {
-            var WholesalerDtos = await _mediator.Send(new WholesalerQueryGetAll());
+            var WholesalerDtos = await _mediator.Send(new WholesalerQueryGetAll(upc));
             return Ok(WholesalerDtos);
         }
 
@@ -53,10 +53,10 @@ namespace Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("{id}/add-product/{pid}")]
-        public async Task<IActionResult> AddProduct(int id, int pid)
+        [HttpPost("{id}/add-product/{upc}")]
+        public async Task<IActionResult> AddProduct(int id, string upc)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandAddProduct(id, pid));
+            var wholesaler = await _mediator.Send(new WholesalerCommandAddProduct(id, upc));
             return Ok(wholesaler);
         }
 

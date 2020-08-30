@@ -27,7 +27,7 @@ namespace Inventory.Api.Queries
 
             public async Task<WholesalerDto> Handle(WholesalerQueryGetById request, CancellationToken cancellationToken)
             {
-                var Wholesaler = await _context.Wholesalers.FirstOrDefaultAsync(x => x.Id == request.Id);
+                var Wholesaler = await _context.Wholesalers.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == request.Id);
                 var WholesalerDto = WholesalerMapper.MapToDto(Wholesaler);
                 return WholesalerDto;
             }
