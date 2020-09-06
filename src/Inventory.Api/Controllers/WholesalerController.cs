@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Inventory.Api.Controllers
 {
     [ApiController]
-    [Route("Wholesaler/")]
+    [Route("wholesaler/")]
     public class WholesalerController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -47,7 +47,7 @@ namespace Inventory.Api.Controllers
             return Ok(updatedWholesalerDto);
         }
 
-        [HttpDelete("{id}/")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new WholesalerCommandDelete(id));
@@ -61,7 +61,7 @@ namespace Inventory.Api.Controllers
             return Ok(wholesaler);
         }
 
-        [HttpDelete("{id}/remove-product")]
+        [HttpDelete("{id}/remove-products")]
         public async Task<IActionResult> RemoveProduct(int id, [FromBody] List<string> upcs)
         {
             var wholesaler = await _mediator.Send(new WholesalerCommandRemoveProducts(id, upcs));

@@ -47,7 +47,7 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok(updatedProductDto);
         }
         
-        [HttpDelete("{id}/")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new ProductCommandDelete(id));

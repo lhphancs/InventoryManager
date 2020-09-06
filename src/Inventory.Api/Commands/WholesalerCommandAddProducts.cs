@@ -34,7 +34,10 @@ namespace Inventory.Api.Commands
 
             public async Task<WholesalerDto> Handle(WholesalerCommandAddProducts request, CancellationToken cancellationToken)
             {
-                var wholesaler = _context.Wholesalers.FirstOrDefault(x => x.Id == request.WholesalerId);
+                var wholesaler = _context
+                                    .Wholesalers
+                                    .Include(x => x.Products)
+                                    .FirstOrDefault(x => x.Id == request.WholesalerId);
 
                 if (wholesaler == null)
                 {
