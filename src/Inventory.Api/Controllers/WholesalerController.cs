@@ -61,10 +61,10 @@ namespace Inventory.Api.Controllers
             return Ok(wholesaler);
         }
 
-        [HttpDelete("{id}/remove-products")]
+        [HttpDelete("{id}/delete-products")]
         public async Task<IActionResult> RemoveProduct(int id, [FromBody] List<string> upcs)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandRemoveProducts(id, upcs));
+            var wholesaler = await _mediator.Send(new WholesalerCommandDeleteProducts(id, upcs));
             return Ok(wholesaler);
         }
     }

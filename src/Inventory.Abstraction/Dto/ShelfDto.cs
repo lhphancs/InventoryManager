@@ -6,8 +6,7 @@ namespace Inventory.Abstraction.Dto
     public class ShelfDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public ShelfInfoDto ShelfInfo { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }

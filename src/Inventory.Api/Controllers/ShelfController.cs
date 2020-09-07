@@ -3,6 +3,7 @@ using Inventory.Api.Commands;
 using Inventory.Api.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ag2yd.Inventory.Api.Controllers
@@ -33,10 +34,17 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ShelfDto shelfDto)
+        public async Task<IActionResult> Create([FromBody] ShelfInfoDto shelfInfoDto)
         {
-            await _mediator.Send(new ShelfCommandCreate(shelfDto));
+            await _mediator.Send(new ShelfCommandCreate(shelfInfoDto));
             return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateInfo(int id, [FromBody] ShelfInfoDto shelfInfoDto)
+        {
+            var updatedShelfDto = await _mediator.Send(new ShelfCommandUpdateInfo(id, shelfInfoDto));
+            return Ok(updatedShelfDto);
         }
 
         [HttpDelete("{id}")]
@@ -47,9 +55,16 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPatch("{id}/add-shelf-location")]
-        public async Task<IActionResult> Receive(int shelfId, [FromBody] ShelfLocationDto shelfLocationDto)
+        public async Task<IActionResult> Receive(int id, [FromBody] ShelfLocationDto shelfLocationDto)
         {
-            await _mediator.Send(new ShelfCommandAddShelfLocation(shelfId, shelfLocationDto.Row, shelfLocationDto.Position));
+            await _mediator.Send(new ShelfCommandAddShelfLocation(id, shelfLocationDto.Row, shelfLocationDto.Position));
+            return Ok();
+        }
+
+        [HttpPatch("{id}/delete-shelf-location/{sid}")]
+        public async Task<IActionResult> Receive(int id, [FromBody] List<int> shelfLocationIds)
+        {
+            await _mediator.Send(new ShelfCommandDeleteShelfLocations(id, shelfLocationIds));
             return Ok();
         }
     }

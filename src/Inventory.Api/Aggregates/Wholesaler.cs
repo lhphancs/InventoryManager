@@ -32,7 +32,7 @@ namespace Inventory.Api.Aggregates
             ModifiedDateTime = DateTime.UtcNow;
         }
 
-        public void RemoveProduct(Product product)
+        public void DeleteProduct(Product product)
         {
             Products.Remove(product);
         }

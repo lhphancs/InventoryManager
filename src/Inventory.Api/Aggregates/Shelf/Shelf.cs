@@ -1,5 +1,6 @@
 ﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.SeedWork;
+using Inventory.Api.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,16 @@ namespace Inventory.Api.Aggregates.Shelf
     {
         public Shelf() { }
 
-        public Shelf(ShelfDto shelfDto) 
+        public Shelf(ShelfInfoDto shelfInfoDto) 
         {
-            Name = shelfDto.Name;
-            Description = shelfDto.Description;
+            UpdateShelfInfo(shelfInfoDto);
+        }
+
+        public void UpdateShelfInfo(ShelfInfoDto shelfInfoDto)
+        {
+            ShelfInfo = new ShelfInfo(shelfInfoDto);
+
+            ModifiedDateTime = CreatedDateTime;
         }
 
         public void AddShelfLocation(int row, int position)
@@ -27,13 +34,17 @@ namespace Inventory.Api.Aggregates.Shelf
             ShelfLocations.Add(shelfLocation);
         }
 
+        public void DeleteShelfLocation(ShelfLocation shelfLocation)
+        {
+            ShelfLocations.Remove(shelfLocation);
+        }
+
         private ShelfLocation GetExistingShelfLocation(int row, int position)
         {
             return ShelfLocations.FirstOrDefault(x => x.Row == row && x.Position == position);
         }
 
-        public string Name { get; private set; }
-        public string Description { get; private set; }
+        public ShelfInfo ShelfInfo { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
         public virtual ICollection<ShelfLocation> ShelfLocations {get; set;}

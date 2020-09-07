@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 
 namespace Inventory.Api.Commands
 {
-    public class WholesalerCommandRemoveProducts : IRequest<WholesalerDto>
+    public class WholesalerCommandDeleteProducts : IRequest<WholesalerDto>
     {
         private readonly int WholesalerId;
         private readonly List<string> Upcs;
 
-        public WholesalerCommandRemoveProducts(int wholesalerId, List<string> upcs)
+        public WholesalerCommandDeleteProducts(int wholesalerId, List<string> upcs)
         {
             WholesalerId = wholesalerId;
             Upcs = upcs;
         }
 
-        public class WholesalerCommandRemoveProductHandler : IRequestHandler<WholesalerCommandRemoveProducts, WholesalerDto>
+        public class WholesalerCommandRemoveProductHandler : IRequestHandler<WholesalerCommandDeleteProducts, WholesalerDto>
         {
             private readonly InventoryContext _context;
 
@@ -32,22 +32,22 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<WholesalerDto> Handle(WholesalerCommandRemoveProducts request, CancellationToken cancellationToken)
+            public async Task<WholesalerDto> Handle(WholesalerCommandDeleteProducts request, CancellationToken cancellationToken)
             {
-                var wholesaler = _context.Wholesalers.FirstOrDefault(x => x.Id == request.WholesalerId);
+                var wholesaler = await _context.Wholesalers.Include(x => x.Products).FirstOrDefaultAsync(x => x.Id == request.WholesalerId);
 
                 if (wholesaler == null)
                 {
                     throw new InvalidOperationException($"WholesalerId '{request.WholesalerId}' not found");
                 }
 
-                var productDict = await _context.Products.ToDictionaryAsync(x => x.ProductInfo.Upc, x => x);
+                var productDict = wholesaler.Products.ToDictionary(x => x.ProductInfo.Upc, x => x);
 
                 foreach (var upc in request.Upcs)
                 {
                     if (productDict.TryGetValue(upc, out Product product))
                     {
-                        wholesaler.RemoveProduct(product);
+                        wholesaler.DeleteProduct(product);
                     }
                     else
                     {

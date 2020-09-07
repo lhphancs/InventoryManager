@@ -9,10 +9,10 @@ namespace Inventory.Api.Commands
 {
     public class ShelfCommandCreate : IRequest
     {
-        private readonly ShelfDto ShelfDto;
-        public ShelfCommandCreate(ShelfDto shelfDto)
+        private readonly ShelfInfoDto ShelfInfoDto;
+        public ShelfCommandCreate(ShelfInfoDto shelfInfoDto)
         {
-            ShelfDto = shelfDto;
+            ShelfInfoDto = shelfInfoDto;
         }
 
         public class ProductCommandCreateHandler : IRequestHandler<ShelfCommandCreate>
@@ -26,7 +26,7 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ShelfCommandCreate request, CancellationToken cancellationToken)
             {
-                var shelf = new Shelf(request.ShelfDto);
+                var shelf = new Shelf(request.ShelfInfoDto);
                 _context.Shelfs.Add(shelf);
 
                 await _context.SaveChangesAsync(cancellationToken);

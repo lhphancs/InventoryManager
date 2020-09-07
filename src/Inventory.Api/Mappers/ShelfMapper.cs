@@ -12,8 +12,7 @@ namespace Inventory.Api.Mappers
             return new ShelfDto
             {
                 Id = shelf.Id,
-                Name = shelf.Name,
-                Description = shelf.Description,
+                ShelfInfo = ShelfInfoMapper.MapToDto(shelf.ShelfInfo),
                 ShelfLocations = ShelfLocationMapper.MapToDto(shelf.ShelfLocations),
                 CreatedDateTime = shelf.CreatedDateTime,
                 ModifiedDateTime = shelf.ModifiedDateTime
