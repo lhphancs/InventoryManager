@@ -34,9 +34,5 @@
     <ProjectReference Include="..\Inventory.Abstraction\Inventory.Abstraction.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 
 </Project>

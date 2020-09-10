@@ -10,6 +10,8 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.HasMany(x => x.ShelfLocations).WithOne().HasForeignKey(x => x.Id);
+
+            builder.OwnsOne(x => x.ShelfInfo);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Inventory.Api.Mappers
             {
                 Id = shelf.Id,
                 ShelfInfo = ShelfInfoMapper.MapToDto(shelf.ShelfInfo),
-                ShelfLocations = ShelfLocationMapper.MapToDto(shelf.ShelfLocations),
+                ShelfLocations = shelf.ShelfLocations == null ? null : ShelfLocationMapper.MapToDto(shelf.ShelfLocations),
                 CreatedDateTime = shelf.CreatedDateTime,
                 ModifiedDateTime = shelf.ModifiedDateTime
             };

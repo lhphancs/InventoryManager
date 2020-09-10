@@ -57,14 +57,8 @@ namespace Inventory.Api.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("ModifiedDateTime")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -171,6 +165,29 @@ namespace Inventory.Api.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
+                        });
+                });
+
+            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.Shelf", b =>
+                {
+                    b.OwnsOne("Inventory.Api.ValueObjects.ShelfInfo", "ShelfInfo", b1 =>
+                        {
+                            b1.Property<int>("ShelfId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Description")
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("text");
+
+                            b1.HasKey("ShelfId");
+
+                            b1.ToTable("Shelfs");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ShelfId");
                         });
                 });
 

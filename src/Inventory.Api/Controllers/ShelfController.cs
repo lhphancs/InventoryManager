@@ -36,8 +36,8 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ShelfInfoDto shelfInfoDto)
         {
-            await _mediator.Send(new ShelfCommandCreate(shelfInfoDto));
-            return Ok();
+            var shelfDto = await _mediator.Send(new ShelfCommandCreate(shelfInfoDto));
+            return Ok(shelfDto);
         }
 
         [HttpPatch("{id}")]
