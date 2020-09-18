@@ -64,7 +64,7 @@ namespace Inventory.Api.Aggregates
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
 
-        public virtual ShelfLocation ShelfLocation { get; private set; }
+        public virtual ShelfProduct ShelfLocation { get; private set; }
         public virtual ICollection<ProductWholesaler> ProductWholesalers { get; private set; }
     }
 }

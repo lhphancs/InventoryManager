@@ -23,30 +23,30 @@ namespace Inventory.Api.Aggregates.Shelf
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void AddShelfLocation(int row, int position)
+        public void AddShelfProduct(int productId, int row, int position)
         {
             if (GetExistingShelfLocation(row, position) != null)
             {
                 throw new InvalidOperationException($"ShelfId '{Id}' already has a shelfLocation at row={row} position={position}");
             }
 
-            var shelfLocation = new ShelfLocation(row, position);
-            ShelfLocations.Add(shelfLocation);
+            var shelfLocation = new ShelfProduct(productId, row, position);
+            ShelfProducts.Add(shelfLocation);
         }
 
-        public void DeleteShelfLocation(ShelfLocation shelfLocation)
+        public void DeleteShelfLocation(ShelfProduct shelfLocation)
         {
-            ShelfLocations.Remove(shelfLocation);
+            ShelfProducts.Remove(shelfLocation);
         }
 
-        private ShelfLocation GetExistingShelfLocation(int row, int position)
+        private ShelfProduct GetExistingShelfLocation(int row, int position)
         {
-            return ShelfLocations.FirstOrDefault(x => x.Row == row && x.Position == position);
+            return ShelfProducts.FirstOrDefault(x => x.Row == row && x.Position == position);
         }
 
         public ShelfInfo ShelfInfo { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
-        public virtual ICollection<ShelfLocation> ShelfLocations {get; set;}
+        public virtual ICollection<ShelfProduct> ShelfProducts {get; set;}
     }
 }

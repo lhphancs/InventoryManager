@@ -11,6 +11,6 @@ namespace Inventory.Abstraction.Dto
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }
 
-        public IEnumerable<ShelfLocationDto> ShelfLocations { get; set; }
+        public IEnumerable<ShelfProductDto> ShelfLocations { get; set; }
     }
 }

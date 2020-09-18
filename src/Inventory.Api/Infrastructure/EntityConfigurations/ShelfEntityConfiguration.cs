@@ -9,9 +9,12 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<Shelf> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany(x => x.ShelfLocations).WithOne().HasForeignKey(x => x.Id);
+            builder.HasMany(x => x.ShelfProducts).WithOne().HasForeignKey(x => x.Id);
 
-            builder.OwnsOne(x => x.ShelfInfo);
+            builder.OwnsOne(x => x.ShelfInfo, x =>
+            {
+                x.HasIndex(x => x.Name).IsUnique();
+            });
         }
     }
 }

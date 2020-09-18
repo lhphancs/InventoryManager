@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 
 namespace Inventory.Api.Commands
 {
-    public class ShelfCommandDeleteShelfLocations : IRequest<ShelfDto>
+    public class ShelfCommandDeleteShelfProducts : IRequest<ShelfDto>
     {
         private readonly int ShelfId;
         private readonly List<int> ShelfLocationIds;
 
-        public ShelfCommandDeleteShelfLocations(int shelfId, List<int> shelfLocationIds)
+        public ShelfCommandDeleteShelfProducts(int shelfId, List<int> shelfLocationIds)
         {
             ShelfId = shelfId;
             ShelfLocationIds = shelfLocationIds;
         }
 
-        public class ShelfCommandDeleteShelfLocationsHandler : IRequestHandler<ShelfCommandDeleteShelfLocations, ShelfDto>
+        public class ShelfCommandDeleteShelfLocationsHandler : IRequestHandler<ShelfCommandDeleteShelfProducts, ShelfDto>
         {
             private readonly InventoryContext _context;
 
@@ -32,20 +32,20 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<ShelfDto> Handle(ShelfCommandDeleteShelfLocations request, CancellationToken cancellationToken)
+            public async Task<ShelfDto> Handle(ShelfCommandDeleteShelfProducts request, CancellationToken cancellationToken)
             {
-                var shelf = await _context.Shelfs.Include(x => x.ShelfLocations).FirstOrDefaultAsync(x => x.Id == request.ShelfId);
+                var shelf = await _context.Shelfs.Include(x => x.ShelfProducts).FirstOrDefaultAsync(x => x.Id == request.ShelfId);
 
                 if (shelf == null)
                 {
                     throw new InvalidOperationException($"ShelfId '{request.ShelfId}' not found");
                 }
 
-                var shelfLocationDict = shelf.ShelfLocations.ToDictionary(x => x.Id, x => x);
+                var shelfLocationDict = shelf.ShelfProducts.ToDictionary(x => x.Id, x => x);
 
                 foreach (var shelfLocationId in request.ShelfLocationIds)
                 {
-                    if (shelfLocationDict.TryGetValue(shelfLocationId, out ShelfLocation shelfLocation))
+                    if (shelfLocationDict.TryGetValue(shelfLocationId, out ShelfProduct shelfLocation))
                     {
                         shelf.DeleteShelfLocation(shelfLocation);
                     }

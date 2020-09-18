@@ -28,7 +28,7 @@ namespace Inventory.Api.Queries
 
             public async Task<ShelfDto> Handle(ShelfQueryGetById request, CancellationToken cancellationToken)
             {
-                var shelf = await _context.Shelfs.Include(x => x.ShelfLocations).FirstOrDefaultAsync(x => x.Id == request.Id);
+                var shelf = await _context.Shelfs.Include(x => x.ShelfProducts).FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 if (shelf == null)
                 {

@@ -54,17 +54,17 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch("{id}/add-shelf-location")]
-        public async Task<IActionResult> Receive(int id, [FromBody] ShelfLocationDto shelfLocationDto)
+        [HttpPatch("{id}/add-shelf-product")]
+        public async Task<IActionResult> AddShelfProduct(int id, [FromBody] ShelfProductDto shelfProductDto)
         {
-            await _mediator.Send(new ShelfCommandAddShelfLocation(id, shelfLocationDto.Row, shelfLocationDto.Position));
+            await _mediator.Send(new ShelfCommandAddShelfProduct(id, shelfProductDto.ProductId, shelfProductDto.Row, shelfProductDto.Position));
             return Ok();
         }
 
-        [HttpPatch("{id}/delete-shelf-location/{sid}")]
-        public async Task<IActionResult> Receive(int id, [FromBody] List<int> shelfLocationIds)
+        [HttpPatch("{id}/delete-shelf-product/{sid}")]
+        public async Task<IActionResult> DeleteShelfProduct(int id, [FromBody] List<int> shelfLocationIds)
         {
-            await _mediator.Send(new ShelfCommandDeleteShelfLocations(id, shelfLocationIds));
+            await _mediator.Send(new ShelfCommandDeleteShelfProducts(id, shelfLocationIds));
             return Ok();
         }
     }
