@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Inventory.Api.Infrastructure.EntityConfigurations
 {
-    class ShelfLocationEntityConfiguration : IEntityTypeConfiguration<ShelfProduct>
+    class ShelfProductEntityConfiguration : IEntityTypeConfiguration<ShelfProduct>
     {
         public void Configure(EntityTypeBuilder<ShelfProduct> builder)
         {

@@ -43,18 +43,37 @@ namespace Inventory.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShelfLocation",
+                name: "ProductWholesaler",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    WholesalerId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductWholesaler", x => new { x.ProductId, x.WholesalerId });
+                    table.ForeignKey(
+                        name: "FK_ProductWholesaler_Wholesalers_WholesalerId",
+                        column: x => x.WholesalerId,
+                        principalTable: "Wholesalers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShelfProduct",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
                     Row = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShelfLocation", x => x.Id);
+                    table.PrimaryKey("PK_ShelfProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShelfLocation_Shelfs_Id",
+                        name: "FK_ShelfProduct_Shelfs_Id",
                         column: x => x.Id,
                         principalTable: "Shelfs",
                         principalColumn: "Id",
@@ -86,9 +105,9 @@ namespace Inventory.Api.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ShelfLocation_ShelfLocationId",
+                        name: "FK_Products_ShelfProduct_ShelfLocationId",
                         column: x => x.ShelfLocationId,
-                        principalTable: "ShelfLocation",
+                        principalTable: "ShelfProduct",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -97,30 +116,6 @@ namespace Inventory.Api.Migrations
                         principalTable: "Wholesalers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductWholesaler",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(nullable: false),
-                    WholesalerId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductWholesaler", x => new { x.ProductId, x.WholesalerId });
-                    table.ForeignKey(
-                        name: "FK_ProductWholesaler_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductWholesaler_Wholesalers_WholesalerId",
-                        column: x => x.WholesalerId,
-                        principalTable: "Wholesalers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -146,28 +141,59 @@ namespace Inventory.Api.Migrations
                 column: "WholesalerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ShelfProduct_ProductId",
+                table: "ShelfProduct",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shelfs_ShelfInfo_Name",
+                table: "Shelfs",
+                column: "ShelfInfo_Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Wholesalers_WholesalerInfo_Name",
                 table: "Wholesalers",
                 column: "WholesalerInfo_Name",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ProductWholesaler_Products_ProductId",
+                table: "ProductWholesaler",
+                column: "ProductId",
+                principalTable: "Products",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ShelfProduct_Products_ProductId",
+                table: "ShelfProduct",
+                column: "ProductId",
+                principalTable: "Products",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Products_ShelfProduct_ShelfLocationId",
+                table: "Products");
+
             migrationBuilder.DropTable(
                 name: "ProductWholesaler");
+
+            migrationBuilder.DropTable(
+                name: "ShelfProduct");
+
+            migrationBuilder.DropTable(
+                name: "Shelfs");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "ShelfLocation");
-
-            migrationBuilder.DropTable(
                 name: "Wholesalers");
-
-            migrationBuilder.DropTable(
-                name: "Shelfs");
         }
     }
 }

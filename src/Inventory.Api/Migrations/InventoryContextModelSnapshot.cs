@@ -65,7 +65,7 @@ namespace Inventory.Api.Migrations
                     b.ToTable("Shelfs");
                 });
 
-            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
+            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfProduct", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -73,12 +73,17 @@ namespace Inventory.Api.Migrations
                     b.Property<int>("Position")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Row")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShelfLocation");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ShelfProduct");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>
@@ -115,7 +120,7 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Product", b =>
                 {
-                    b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfLocation", "ShelfLocation")
+                    b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfProduct", "ShelfLocation")
                         .WithOne()
                         .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfLocationId");
 
@@ -180,9 +185,12 @@ namespace Inventory.Api.Migrations
                                 .HasColumnType("text");
 
                             b1.Property<string>("Name")
-                                .HasColumnType("text");
+                                .HasColumnType("varchar(767)");
 
                             b1.HasKey("ShelfId");
+
+                            b1.HasIndex("Name")
+                                .IsUnique();
 
                             b1.ToTable("Shelfs");
 
@@ -191,11 +199,17 @@ namespace Inventory.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfLocation", b =>
+            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfProduct", b =>
                 {
                     b.HasOne("Inventory.Api.Aggregates.Shelf.Shelf", null)
-                        .WithMany("ShelfLocations")
+                        .WithMany("ShelfProducts")
                         .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Inventory.Api.Aggregates.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
