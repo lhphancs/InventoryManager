@@ -6,15 +6,15 @@ namespace Inventory.Api.Aggregates.Shelf
     {
         public ShelfProduct() { }
 
-        public ShelfProduct(int productId, int row, int position) 
+        public ShelfProduct(int productId, int row, int column) 
         {
             ProductId = productId;
             Row = row;
-            Position = position;
+            Column = column;
         }
         public int ProductId { get; private set; }
         public int Row { get; private set; }
-        public int Position { get; private set; }
+        public int Column { get; private set; }
 
         public virtual Product Product { get; private set; }
     }

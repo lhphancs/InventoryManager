@@ -19,7 +19,7 @@ namespace Inventory.Api.Mappers
                 Id = shelfProduct.Id,
                 ProductId = shelfProduct.ProductId,
                 Row = shelfProduct.Row,
-                Position = shelfProduct.Position,
+                Column = shelfProduct.Column,
                 Product = ProductMapper.MapToDto(shelfProduct.Product)
             };
         }

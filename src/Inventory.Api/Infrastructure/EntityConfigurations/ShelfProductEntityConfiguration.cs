@@ -9,7 +9,7 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<ShelfProduct> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => new { x.Id, x.Row, x.Position }).IsUnique();
+            builder.HasIndex(x => new { x.ProductId, x.Row, x.Column }).IsUnique();
         }
     }
 }

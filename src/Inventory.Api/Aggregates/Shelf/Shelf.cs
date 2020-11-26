@@ -23,15 +23,13 @@ namespace Inventory.Api.Aggregates.Shelf
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void AddShelfProduct(int productId, int row, int position)
+        public void SetShelfProducts(List<int> productIds, int row, int position)
         {
-            if (GetExistingShelfProduct(row, position) != null)
+            ShelfProducts.Clear();
+            foreach (var productId in productIds)
             {
-                throw new InvalidOperationException($"ShelfId '{Id}' already has a shelfProduct at row={row} position={position}");
+                ShelfProducts.Add(new ShelfProduct(productId, row, position));
             }
-
-            var shelfProduct = new ShelfProduct(productId, row, position);
-            ShelfProducts.Add(shelfProduct);
         }
 
         public void DeleteShelfProduct(ShelfProduct shelfProduct)
@@ -39,9 +37,9 @@ namespace Inventory.Api.Aggregates.Shelf
             ShelfProducts.Remove(shelfProduct);
         }
 
-        private ShelfProduct GetExistingShelfProduct(int row, int position)
+        private List<ShelfProduct> GetExistingShelfProducts(int row, int column)
         {
-            return ShelfProducts.FirstOrDefault(x => x.Row == row && x.Position == position);
+            return ShelfProducts.Where(x => x.Row == row && x.Column == column).ToList();
         }
 
         public ShelfInfo ShelfInfo { get; private set; }
