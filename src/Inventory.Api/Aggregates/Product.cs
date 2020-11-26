@@ -41,9 +41,9 @@ namespace Inventory.Api.Aggregates
         }
 
 
-        public void AssignNewShelfLocation(int shelfLocationId)
+        public void AssignNewShelfProduct(int shelfProductId)
         {
-            ShelfLocationId = shelfLocationId;
+            ShelfProductId = shelfProductId;
         }
 
         private void ChangeQuantityAmt(string companyName, int changeAmt)
@@ -59,12 +59,12 @@ namespace Inventory.Api.Aggregates
         public ProductInfo ProductInfo { get; private set; }
 
         public int Quantity { get; private set; }
-        public int? ShelfLocationId { get; private set; }
+        public int? ShelfProductId { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
 
-        public virtual ShelfProduct ShelfLocation { get; private set; }
+        public virtual ShelfProduct ShelfProduct { get; private set; }
         public virtual ICollection<ProductWholesaler> ProductWholesalers { get; private set; }
     }
 }

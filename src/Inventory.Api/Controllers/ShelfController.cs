@@ -62,9 +62,9 @@ namespace Ag2yd.Inventory.Api.Controllers
         }
 
         [HttpPatch("{id}/delete-shelf-product/{sid}")]
-        public async Task<IActionResult> DeleteShelfProduct(int id, [FromBody] List<int> shelfLocationIds)
+        public async Task<IActionResult> DeleteShelfProduct(int id, [FromBody] List<int> shelfProductIds)
         {
-            await _mediator.Send(new ShelfCommandDeleteShelfProducts(id, shelfLocationIds));
+            await _mediator.Send(new ShelfCommandDeleteShelfProducts(id, shelfProductIds));
             return Ok();
         }
     }

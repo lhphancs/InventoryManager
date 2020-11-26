@@ -25,8 +25,8 @@ namespace Inventory.Api.Mappers
         }
         public static IEnumerable<ShelfProductDto> MapToDto(IEnumerable<ShelfProduct> shelfProducts)
         {
-            var shelfLocationDtos = shelfProducts.Select(x => MapToDto(x));
-            return shelfLocationDtos;
+            var shelfProductDtos = shelfProducts.Select(x => MapToDto(x));
+            return shelfProductDtos;
         }
     }
 }

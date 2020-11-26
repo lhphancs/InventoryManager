@@ -25,21 +25,21 @@ namespace Inventory.Api.Aggregates.Shelf
 
         public void AddShelfProduct(int productId, int row, int position)
         {
-            if (GetExistingShelfLocation(row, position) != null)
+            if (GetExistingShelfProduct(row, position) != null)
             {
-                throw new InvalidOperationException($"ShelfId '{Id}' already has a shelfLocation at row={row} position={position}");
+                throw new InvalidOperationException($"ShelfId '{Id}' already has a shelfProduct at row={row} position={position}");
             }
 
-            var shelfLocation = new ShelfProduct(productId, row, position);
-            ShelfProducts.Add(shelfLocation);
+            var shelfProduct = new ShelfProduct(productId, row, position);
+            ShelfProducts.Add(shelfProduct);
         }
 
-        public void DeleteShelfLocation(ShelfProduct shelfLocation)
+        public void DeleteShelfProduct(ShelfProduct shelfProduct)
         {
-            ShelfProducts.Remove(shelfLocation);
+            ShelfProducts.Remove(shelfProduct);
         }
 
-        private ShelfProduct GetExistingShelfLocation(int row, int position)
+        private ShelfProduct GetExistingShelfProduct(int row, int position)
         {
             return ShelfProducts.FirstOrDefault(x => x.Row == row && x.Position == position);
         }

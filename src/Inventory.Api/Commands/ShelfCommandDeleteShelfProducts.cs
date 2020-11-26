@@ -15,19 +15,19 @@ namespace Inventory.Api.Commands
     public class ShelfCommandDeleteShelfProducts : IRequest<ShelfDto>
     {
         private readonly int ShelfId;
-        private readonly List<int> ShelfLocationIds;
+        private readonly List<int> ShelfProductIds;
 
-        public ShelfCommandDeleteShelfProducts(int shelfId, List<int> shelfLocationIds)
+        public ShelfCommandDeleteShelfProducts(int shelfId, List<int> shelfProductIds)
         {
             ShelfId = shelfId;
-            ShelfLocationIds = shelfLocationIds;
+            ShelfProductIds = shelfProductIds;
         }
 
-        public class ShelfCommandDeleteShelfLocationsHandler : IRequestHandler<ShelfCommandDeleteShelfProducts, ShelfDto>
+        public class ShelfCommandDeleteShelfProductsHandler : IRequestHandler<ShelfCommandDeleteShelfProducts, ShelfDto>
         {
             private readonly InventoryContext _context;
 
-            public ShelfCommandDeleteShelfLocationsHandler(InventoryContext context)
+            public ShelfCommandDeleteShelfProductsHandler(InventoryContext context)
             {
                 _context = context;
             }
@@ -41,17 +41,17 @@ namespace Inventory.Api.Commands
                     throw new InvalidOperationException($"ShelfId '{request.ShelfId}' not found");
                 }
 
-                var shelfLocationDict = shelf.ShelfProducts.ToDictionary(x => x.Id, x => x);
+                var shelfProductDict = shelf.ShelfProducts.ToDictionary(x => x.Id, x => x);
 
-                foreach (var shelfLocationId in request.ShelfLocationIds)
+                foreach (var shelfProductId in request.ShelfProductIds)
                 {
-                    if (shelfLocationDict.TryGetValue(shelfLocationId, out ShelfProduct shelfLocation))
+                    if (shelfProductDict.TryGetValue(shelfProductId, out ShelfProduct shelfProduct))
                     {
-                        shelf.DeleteShelfLocation(shelfLocation);
+                        shelf.DeleteShelfProduct(shelfProduct);
                     }
                     else
                     {
-                        throw new InvalidOperationException($"ShelfLocationId '{shelfLocationId}' not found");
+                        throw new InvalidOperationException($"ShelfProductId '{shelfProductId}' not found");
                     }
                 }
 
