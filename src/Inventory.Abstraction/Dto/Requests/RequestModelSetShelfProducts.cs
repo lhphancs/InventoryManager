@@ -4,8 +4,8 @@ namespace Inventory.Abstraction.Dto.Requests
 {
     public class RequestModelSetShelfProducts
     {
-        public List<int> productIds { get; set; }
-        public int row { get; set; }
-        public int column { get; set; }
+        public List<int> ProductIds { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
     }
 }

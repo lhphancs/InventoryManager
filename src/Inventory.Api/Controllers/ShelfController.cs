@@ -57,7 +57,7 @@ namespace Ag2yd.Inventory.Api.Controllers
         [HttpPatch("{id}/set-shelf-products")]
         public async Task<IActionResult> SetShelfProducts(int id, [FromBody] RequestModelSetShelfProducts request)
         {
-            await _mediator.Send(new ShelfCommandSetShelfProducts(id, request.productIds, request.row, request.column));
+            await _mediator.Send(new ShelfCommandSetShelfProducts(id, request.ProductIds, request.Row, request.Column));
             return Ok();
         }
     }
