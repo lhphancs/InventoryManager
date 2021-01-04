@@ -13,6 +13,7 @@ namespace Inventory.Api.Aggregates.Shelf
 
         public Shelf(ShelfInfoDto shelfInfoDto) 
         {
+            ShelfProducts = new List<ShelfProduct>();
             UpdateShelfInfo(shelfInfoDto);
         }
 
@@ -28,7 +29,7 @@ namespace Inventory.Api.Aggregates.Shelf
             ShelfProducts.Clear();
             foreach (var productId in productIds)
             {
-                ShelfProducts.Add(new ShelfProduct(productId, row, position));
+                ShelfProducts.Add(new ShelfProduct(Id, productId, row, position));
             }
         }
 

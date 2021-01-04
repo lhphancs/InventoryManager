@@ -43,44 +43,6 @@ namespace Inventory.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductWholesaler",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(nullable: false),
-                    WholesalerId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductWholesaler", x => new { x.ProductId, x.WholesalerId });
-                    table.ForeignKey(
-                        name: "FK_ProductWholesaler_Wholesalers_WholesalerId",
-                        column: x => x.WholesalerId,
-                        principalTable: "Wholesalers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShelfProduct",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false),
-                    Row = table.Column<int>(nullable: false),
-                    Position = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShelfProduct", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShelfProduct_Shelfs_Id",
-                        column: x => x.Id,
-                        principalTable: "Shelfs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -96,33 +58,83 @@ namespace Inventory.Api.Migrations
                     ProductInfo_RequiresPadding = table.Column<bool>(nullable: true),
                     ProductInfo_RequiresBox = table.Column<bool>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    ShelfLocationId = table.Column<int>(nullable: true),
+                    ShelfProductId = table.Column<int>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
+                    ShelfProduct_Id = table.Column<int>(nullable: true),
+                    ShelfProduct_ShelfId = table.Column<int>(nullable: true),
+                    ShelfProduct_Row = table.Column<int>(nullable: true),
+                    ShelfProduct_Column = table.Column<int>(nullable: true),
                     WholesalerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ShelfProduct_ShelfLocationId",
-                        column: x => x.ShelfLocationId,
-                        principalTable: "ShelfProduct",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Products_Wholesalers_WholesalerId",
                         column: x => x.WholesalerId,
                         principalTable: "Wholesalers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Products_Shelfs_ShelfProduct_ShelfId",
+                        column: x => x.ShelfProduct_ShelfId,
+                        principalTable: "Shelfs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ShelfLocationId",
-                table: "Products",
-                column: "ShelfLocationId",
-                unique: true);
+            migrationBuilder.CreateTable(
+                name: "ProductWholesaler",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    WholesalerId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductWholesaler", x => new { x.ProductId, x.WholesalerId });
+                    table.ForeignKey(
+                        name: "FK_ProductWholesaler_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductWholesaler_Wholesalers_WholesalerId",
+                        column: x => x.WholesalerId,
+                        principalTable: "Wholesalers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shelfs_ShelfProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    ShelfId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Row = table.Column<int>(nullable: false),
+                    Column = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shelfs_ShelfProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shelfs_ShelfProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shelfs_ShelfProducts_Shelfs_ShelfId",
+                        column: x => x.ShelfId,
+                        principalTable: "Shelfs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_WholesalerId",
@@ -136,14 +148,14 @@ namespace Inventory.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_ShelfProduct_ShelfId",
+                table: "Products",
+                column: "ShelfProduct_ShelfId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductWholesaler_WholesalerId",
                 table: "ProductWholesaler",
                 column: "WholesalerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShelfProduct_ProductId",
-                table: "ShelfProduct",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shelfs_ShelfInfo_Name",
@@ -152,48 +164,39 @@ namespace Inventory.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Shelfs_ShelfProducts_ProductId",
+                table: "Shelfs_ShelfProducts",
+                column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shelfs_ShelfProducts_ShelfId",
+                table: "Shelfs_ShelfProducts",
+                column: "ShelfId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Wholesalers_WholesalerInfo_Name",
                 table: "Wholesalers",
                 column: "WholesalerInfo_Name",
                 unique: true);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ProductWholesaler_Products_ProductId",
-                table: "ProductWholesaler",
-                column: "ProductId",
-                principalTable: "Products",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ShelfProduct_Products_ProductId",
-                table: "ShelfProduct",
-                column: "ProductId",
-                principalTable: "Products",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Products_ShelfProduct_ShelfLocationId",
-                table: "Products");
-
             migrationBuilder.DropTable(
                 name: "ProductWholesaler");
 
             migrationBuilder.DropTable(
-                name: "ShelfProduct");
-
-            migrationBuilder.DropTable(
-                name: "Shelfs");
+                name: "Shelfs_ShelfProducts");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Wholesalers");
+
+            migrationBuilder.DropTable(
+                name: "Shelfs");
         }
     }
 }

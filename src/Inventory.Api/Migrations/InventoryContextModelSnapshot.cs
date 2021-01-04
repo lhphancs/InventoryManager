@@ -40,9 +40,6 @@ namespace Inventory.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShelfProductId")
-                        .IsUnique();
-
                     b.HasIndex("WholesalerId");
 
                     b.ToTable("Products");
@@ -63,30 +60,6 @@ namespace Inventory.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Shelfs");
-                });
-
-            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Column")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Row")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId1");
-
-                    b.ToTable("ShelfProduct");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>
@@ -123,10 +96,6 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Product", b =>
                 {
-                    b.HasOne("Inventory.Api.Aggregates.Shelf.ShelfProduct", "ShelfProduct")
-                        .WithOne()
-                        .HasForeignKey("Inventory.Api.Aggregates.Product", "ShelfProductId");
-
                     b.HasOne("Inventory.Api.Aggregates.Wholesaler", null)
                         .WithMany("Products")
                         .HasForeignKey("WholesalerId");
@@ -178,6 +147,43 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.Shelf", b =>
                 {
+                    b.OwnsMany("Inventory.Api.Aggregates.Shelf.ShelfProduct", "ShelfProducts", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Column")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ProductId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Row")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ShelfId")
+                                .HasColumnType("int");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ProductId")
+                                .IsUnique();
+
+                            b1.HasIndex("ShelfId");
+
+                            b1.ToTable("ShelfProduct");
+
+                            b1.HasOne("Inventory.Api.Aggregates.Product", "Product")
+                                .WithMany()
+                                .HasForeignKey("ProductId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.WithOwner("Shelf")
+                                .HasForeignKey("ShelfId");
+                        });
+
                     b.OwnsOne("Inventory.Api.ValueObjects.ShelfInfo", "ShelfInfo", b1 =>
                         {
                             b1.Property<int>("ShelfId")
@@ -200,19 +206,6 @@ namespace Inventory.Api.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ShelfId");
                         });
-                });
-
-            modelBuilder.Entity("Inventory.Api.Aggregates.Shelf.ShelfProduct", b =>
-                {
-                    b.HasOne("Inventory.Api.Aggregates.Shelf.Shelf", null)
-                        .WithMany("ShelfProducts")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Inventory.Api.Aggregates.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Wholesaler", b =>

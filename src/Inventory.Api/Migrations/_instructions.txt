@@ -1,0 +1,4 @@
+﻿dotnet tool install --global dotnet-ef
+
+Add-Migrations [Name]
+Update-Database

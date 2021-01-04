@@ -17,7 +17,6 @@ namespace Inventory.Api.Mappers
                
                 Quantity = product.Quantity,
                 ShelfProductId = product.ShelfProductId,
-                ShelfProduct = product.ShelfProduct == null ? null : ShelfProductMapper.MapToDto(product.ShelfProduct),
 
                 CreatedDateTime = product.CreatedDateTime,
                 ModifiedDateTime = product.ModifiedDateTime
