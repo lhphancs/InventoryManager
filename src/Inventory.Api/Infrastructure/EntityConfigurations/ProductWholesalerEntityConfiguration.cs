@@ -1,5 +1,4 @@
-﻿using Inventory.Api.Aggregates;
-using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
+﻿using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

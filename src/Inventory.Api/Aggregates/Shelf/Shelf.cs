@@ -11,7 +11,7 @@ namespace Inventory.Api.Aggregates.Shelf
     {
         public Shelf() { }
 
-        public Shelf(ShelfInfoDto shelfInfoDto) 
+        public Shelf(ShelfInfoDto shelfInfoDto)
         {
             ShelfProducts = new List<ShelfProduct>();
             UpdateShelfInfo(shelfInfoDto);
@@ -42,6 +42,6 @@ namespace Inventory.Api.Aggregates.Shelf
         public ShelfInfo ShelfInfo { get; private set; }
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
-        public virtual ICollection<ShelfProduct> ShelfProducts {get; set;}
+        public virtual ICollection<ShelfProduct> ShelfProducts { get; private set; }
     }
 }

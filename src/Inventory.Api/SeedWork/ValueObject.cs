@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Inventory.Api.Infrastructure
 {
-    #pragma warning disable
+#pragma warning disable
 
     public abstract class ValueObject
     {
@@ -48,7 +48,7 @@ namespace Inventory.Api.Infrastructure
             return a.Equals(b);
         }
 
-        public static bool operator != (ValueObject a, ValueObject b)
+        public static bool operator !=(ValueObject a, ValueObject b)
         {
             return !(a == b);
         }

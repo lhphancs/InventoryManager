@@ -46,7 +46,7 @@ namespace Inventory.Api.Commands
 
                 var productDict = await _context.Products.ToDictionaryAsync(x => x.ProductInfo.Upc, x => x);
 
-                foreach(var upc in request.Upcs)
+                foreach (var upc in request.Upcs)
                 {
                     if (productDict.TryGetValue(upc, out Product product))
                     {

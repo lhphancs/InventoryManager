@@ -1,5 +1,4 @@
 ﻿using Inventory.Abstraction.Dto;
-using Inventory.Api.Aggregates.Shelf;
 using Inventory.Api.Events.DomainEvents;
 using Inventory.Api.Infrastructure.EntityConfigurations.ManyToManyClasses;
 using Inventory.Api.SeedWork;

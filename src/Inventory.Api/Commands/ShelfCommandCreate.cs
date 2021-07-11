@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿using Inventory.Abstraction.Dto;
+using Inventory.Api.Aggregates.Shelf;
 using Inventory.Api.Infrastructure;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Inventory.Abstraction.Dto;
-using Inventory.Api.Aggregates.Shelf;
 
 namespace Inventory.Api.Commands
 {

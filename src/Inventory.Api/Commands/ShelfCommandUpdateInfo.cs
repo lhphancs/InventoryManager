@@ -1,11 +1,11 @@
-﻿using MediatR;
+﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Infrastructure;
+using Inventory.Api.Mappers;
+using MediatR;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System;
-using Inventory.Abstraction.Dto;
-using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Commands
 {

@@ -22,7 +22,7 @@ namespace Inventory.Api.Infrastructure
                 context.Result = new JsonResult(apiError);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
-           
+
             base.OnException(context);
         }
 

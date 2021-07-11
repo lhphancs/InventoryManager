@@ -49,7 +49,7 @@ namespace Inventory.Api.Infrastructure
             // After executing this line all the changes (from the Command Handler and Domain Event Handlers) 
             // performed through the DbContext will be committed
             await base.SaveChangesAsync(cancellationToken);
-            
+
             return true;
         }
 
@@ -58,5 +58,5 @@ namespace Inventory.Api.Infrastructure
         public virtual DbSet<Wholesaler> Wholesalers { get; set; }
     }
 
-    
+
 }

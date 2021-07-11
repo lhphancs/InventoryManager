@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using Inventory.Abstraction.Dto;
 using Inventory.Api.Infrastructure;
+using Inventory.Api.Mappers;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Inventory.Abstraction.Dto;
-using Inventory.Api.Mappers;
 
 namespace Inventory.Api.Queries
 {

@@ -60,5 +60,12 @@ namespace Ag2yd.Inventory.Api.Controllers
             await _mediator.Send(new ShelfCommandCreateShelfProduct(id, request.ProductId, request.Row, request.Column));
             return Ok();
         }
+
+        [HttpDelete("{id}/shelf-product/{spid}")]
+        public async Task<IActionResult> DeleteShelfProduct(int id, int spid)
+        {
+            await _mediator.Send(new ShelfCommandDeleteShelfProduct(id, spid));
+            return Ok();
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Inventory.Api.Aggregates.Shelf
     {
         public ShelfProduct() { }
 
-        public ShelfProduct(int shelfId, int productId, int row, int column) 
+        public ShelfProduct(int shelfId, int productId, int row, int column)
         {
             ShelfId = shelfId;
             ProductId = productId;

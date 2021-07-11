@@ -7,7 +7,7 @@ namespace Inventory.Api.SeedWork
 {
     // Copied file
 
-    #pragma warning disable
+#pragma warning disable
     [ExcludeFromCodeCoverage]
     public abstract class Entity
     {
@@ -94,5 +94,5 @@ namespace Inventory.Api.SeedWork
             return !(left == right);
         }
     }
-    #pragma warning restore
+#pragma warning restore
 }

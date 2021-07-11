@@ -1,9 +1,9 @@
-﻿using MediatR;
-using Inventory.Api.Infrastructure;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Inventory.Api.Infrastructure;
+using MediatR;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Inventory.Api.Commands
 {

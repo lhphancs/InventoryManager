@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Inventory.Api.Infrastructure.RabbitMq
 {
-    #pragma warning disable
+#pragma warning disable
 
     public class RabbitManager : IRabbitManager
     {
@@ -48,5 +48,5 @@ namespace Inventory.Api.Infrastructure.RabbitMq
         }
     }
 
-    #pragma warning restore
+#pragma warning restore
 }
