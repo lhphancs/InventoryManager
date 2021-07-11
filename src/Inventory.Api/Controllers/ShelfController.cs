@@ -1,5 +1,4 @@
 ﻿using Inventory.Abstraction.Dto;
-using Inventory.Abstraction.Dto.Requests;
 using Inventory.Api.Commands;
 using Inventory.Api.Queries;
 using MediatR;
@@ -54,10 +53,10 @@ namespace Ag2yd.Inventory.Api.Controllers
             return Ok();
         }
 
-        [HttpPatch("{id}/set-shelf-products")]
-        public async Task<IActionResult> SetShelfProducts(int id, [FromBody] RequestModelSetShelfProducts request)
+        [HttpPost("{id}/shelf-product")]
+        public async Task<IActionResult> CreateShelfProduct(int id, [FromBody] ShelfProductRequestDto request)
         {
-            await _mediator.Send(new ShelfCommandSetShelfProducts(id, request.ProductIds, request.Row, request.Column));
+            await _mediator.Send(new ShelfCommandCreateShelfProduct(id, request));
             return Ok();
         }
     }

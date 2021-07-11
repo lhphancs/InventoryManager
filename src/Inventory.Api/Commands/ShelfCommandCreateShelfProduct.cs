@@ -4,26 +4,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using System.Collections.Generic;
+using Inventory.Abstraction.Dto.Requests;
 
 namespace Inventory.Api.Commands
 {
-    public class ShelfCommandSetShelfProducts : IRequest
+    public class ShelfCommandCreateShelfProduct : IRequest
     {
-        private readonly List<int> ProductIds;
         private readonly int ShelfId;
+        private readonly int ProductId;
         private readonly int Row;
         private readonly int Column;
 
-        public ShelfCommandSetShelfProducts(int shelfId, List<int> productIds, int row, int column)
+        public ShelfCommandCreateShelfProduct(int shelfId, ShelfProductRequestDto shelfProductRequest)
         {
             ShelfId = shelfId;
-            ProductIds = productIds;
-            Row = row;
-            Column = column;
+            ProductId = shelfProductRequest.ProductId;
+            Row = shelfProductRequest.Row;
+            Column = shelfProductRequest.Column;
         }
 
-        public class ShelfCommandSetShelfProductsHandler : IRequestHandler<ShelfCommandSetShelfProducts>
+        public class ShelfCommandSetShelfProductsHandler : IRequestHandler<ShelfCommandCreateShelfProduct>
         {
             private readonly InventoryContext _context;
 
@@ -32,7 +32,7 @@ namespace Inventory.Api.Commands
                 _context = context;
             }
 
-            public async Task<Unit> Handle(ShelfCommandSetShelfProducts request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(ShelfCommandCreateShelfProduct request, CancellationToken cancellationToken)
             {
                 var existingProductIds = _context.Products.Select(x => x.Id).ToHashSet();
                 var productsNotExisting = request.ProductIds.Where(x => !existingProductIds.Contains(x));
