@@ -32,9 +32,6 @@ namespace Inventory.Api.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShelfProductId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("WholesalerId")
                         .HasColumnType("int");
 

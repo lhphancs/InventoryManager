@@ -39,12 +39,6 @@ namespace Inventory.Api.Aggregates
             ChangeQuantityAmt(productQuantityChangeInfo.CompanyName, -productQuantityChangeInfo.QuantityChangeAmt);
         }
 
-
-        public void AssignNewShelfProduct(int shelfProductId)
-        {
-            ShelfProductId = shelfProductId;
-        }
-
         private void ChangeQuantityAmt(string companyName, int changeAmt)
         {
             Quantity += changeAmt;
@@ -58,7 +52,6 @@ namespace Inventory.Api.Aggregates
         public ProductInfo ProductInfo { get; private set; }
 
         public int Quantity { get; private set; }
-        public int? ShelfProductId { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }

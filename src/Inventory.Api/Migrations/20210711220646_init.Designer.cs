@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20210104011709_init2")]
-    partial class init2
+    [Migration("20210711220646_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,9 +32,6 @@ namespace Inventory.Api.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ShelfProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("WholesalerId")

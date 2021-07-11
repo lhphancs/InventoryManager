@@ -58,13 +58,8 @@ namespace Inventory.Api.Migrations
                     ProductInfo_RequiresPadding = table.Column<bool>(nullable: true),
                     ProductInfo_RequiresBox = table.Column<bool>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    ShelfProductId = table.Column<int>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
-                    ShelfProduct_Id = table.Column<int>(nullable: true),
-                    ShelfProduct_ShelfId = table.Column<int>(nullable: true),
-                    ShelfProduct_Row = table.Column<int>(nullable: true),
-                    ShelfProduct_Column = table.Column<int>(nullable: true),
                     WholesalerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -76,12 +71,6 @@ namespace Inventory.Api.Migrations
                         principalTable: "Wholesalers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Products_Shelfs_ShelfProduct_ShelfId",
-                        column: x => x.ShelfProduct_ShelfId,
-                        principalTable: "Shelfs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,7 +98,7 @@ namespace Inventory.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Shelfs_ShelfProducts",
+                name: "ShelfProduct",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -121,15 +110,15 @@ namespace Inventory.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shelfs_ShelfProducts", x => x.Id);
+                    table.PrimaryKey("PK_ShelfProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Shelfs_ShelfProducts_Products_ProductId",
+                        name: "FK_ShelfProduct_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Shelfs_ShelfProducts_Shelfs_ShelfId",
+                        name: "FK_ShelfProduct_Shelfs_ShelfId",
                         column: x => x.ShelfId,
                         principalTable: "Shelfs",
                         principalColumn: "Id",
@@ -148,31 +137,26 @@ namespace Inventory.Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ShelfProduct_ShelfId",
-                table: "Products",
-                column: "ShelfProduct_ShelfId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductWholesaler_WholesalerId",
                 table: "ProductWholesaler",
                 column: "WholesalerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShelfProduct_ProductId",
+                table: "ShelfProduct",
+                column: "ProductId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShelfProduct_ShelfId",
+                table: "ShelfProduct",
+                column: "ShelfId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shelfs_ShelfInfo_Name",
                 table: "Shelfs",
                 column: "ShelfInfo_Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shelfs_ShelfProducts_ProductId",
-                table: "Shelfs_ShelfProducts",
-                column: "ProductId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shelfs_ShelfProducts_ShelfId",
-                table: "Shelfs_ShelfProducts",
-                column: "ShelfId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wholesalers_WholesalerInfo_Name",
@@ -187,16 +171,16 @@ namespace Inventory.Api.Migrations
                 name: "ProductWholesaler");
 
             migrationBuilder.DropTable(
-                name: "Shelfs_ShelfProducts");
+                name: "ShelfProduct");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Wholesalers");
+                name: "Shelfs");
 
             migrationBuilder.DropTable(
-                name: "Shelfs");
+                name: "Wholesalers");
         }
     }
 }

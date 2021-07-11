@@ -8,6 +8,7 @@ namespace Inventory.Api.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.OwnsOne(x => x.ProductInfo, x =>
             {
                 x.HasIndex(x => x.Upc).IsUnique();
