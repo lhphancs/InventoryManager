@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using Inventory.Abstraction.Dto.Requests;
 
 namespace Inventory.Api.Commands
 {
@@ -15,12 +14,12 @@ namespace Inventory.Api.Commands
         private readonly int Row;
         private readonly int Column;
 
-        public ShelfCommandCreateShelfProduct(int shelfId, ShelfProductRequestDto shelfProductRequest)
+        public ShelfCommandCreateShelfProduct(int shelfId, int productId, int row, int column)
         {
             ShelfId = shelfId;
-            ProductId = shelfProductRequest.ProductId;
-            Row = shelfProductRequest.Row;
-            Column = shelfProductRequest.Column;
+            ProductId = productId;
+            Row = row;
+            Column = column;
         }
 
         public class ShelfCommandSetShelfProductsHandler : IRequestHandler<ShelfCommandCreateShelfProduct>
@@ -34,13 +33,10 @@ namespace Inventory.Api.Commands
 
             public async Task<Unit> Handle(ShelfCommandCreateShelfProduct request, CancellationToken cancellationToken)
             {
-                var existingProductIds = _context.Products.Select(x => x.Id).ToHashSet();
-                var productsNotExisting = request.ProductIds.Where(x => !existingProductIds.Contains(x));
-                if (productsNotExisting.Any())
+                var existingProduct = _context.Products.FirstOrDefault(x => x.Id == request.ProductId);
+                if (existingProduct == null)
                 {
-                    var productIdsNotExisting = productsNotExisting.Select(x => x.ToString());
-                    var prodIdsJoined = string.Join(",", productIdsNotExisting);
-                    throw new InvalidOperationException($"Product not found {prodIdsJoined}");
+                    throw new InvalidOperationException($"Product not found {request.ProductId}");
                 }
 
                 var shelf = _context.Shelfs.FirstOrDefault(x => x.Id == request.ShelfId);
@@ -48,7 +44,7 @@ namespace Inventory.Api.Commands
                 {
                     throw new InvalidOperationException($"Shelf '{request.ShelfId}' not found");
                 }
-                shelf.SetShelfProducts(request.ProductIds, request.Row, request.Column);
+                shelf.AddShelfProduct(request.ProductId, request.Row, request.Column);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

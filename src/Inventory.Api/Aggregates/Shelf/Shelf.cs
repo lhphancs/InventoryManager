@@ -24,13 +24,9 @@ namespace Inventory.Api.Aggregates.Shelf
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void SetShelfProducts(List<int> productIds, int row, int position)
+        public void AddShelfProduct(int productId, int row, int position)
         {
-            ShelfProducts.Clear();
-            foreach (var productId in productIds)
-            {
-                ShelfProducts.Add(new ShelfProduct(Id, productId, row, position));
-            }
+            ShelfProducts.Add(new ShelfProduct(Id, productId, row, position));
         }
 
         public void DeleteShelfProduct(ShelfProduct shelfProduct)
