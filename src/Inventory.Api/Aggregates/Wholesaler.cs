@@ -4,6 +4,7 @@ using Inventory.Api.SeedWork;
 using Inventory.Api.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Inventory.Api.Aggregates
 {
@@ -26,15 +27,24 @@ namespace Inventory.Api.Aggregates
             ModifiedDateTime = CreatedDateTime;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(int productId)
         {
-            Products.Add(product);
+            ProductWholesalers.Add(new ProductWholesaler
+            {
+                ProductId = productId,
+                WholesalerId = Id
+            });
             ModifiedDateTime = DateTime.UtcNow;
         }
 
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(int productId)
         {
-            Products.Remove(product);
+            var productWholesaler = ProductWholesalers.FirstOrDefault(x => x.ProductId == productId);
+            if (productWholesaler == null)
+            {
+                throw new Exception($"ProductId '{productId}' not found in wholesalerId '{Id}'");
+            }
+            ProductWholesalers.Remove(productWholesaler);
         }
 
         public WholesalerInfo WholesalerInfo { get; private set; }
@@ -42,7 +52,6 @@ namespace Inventory.Api.Aggregates
         public DateTime CreatedDateTime { get; private set; }
         public DateTime ModifiedDateTime { get; private set; }
 
-        public virtual ICollection<Product> Products { get; private set; }
         public virtual ICollection<ProductWholesaler> ProductWholesalers { get; private set; }
     }
 }

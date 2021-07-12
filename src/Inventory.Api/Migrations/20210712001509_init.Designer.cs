@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Api.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20210711220646_init")]
+    [Migration("20210712001509_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,12 +34,7 @@ namespace Inventory.Api.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("WholesalerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("WholesalerId");
 
                     b.ToTable("Products");
                 });
@@ -95,10 +90,6 @@ namespace Inventory.Api.Migrations
 
             modelBuilder.Entity("Inventory.Api.Aggregates.Product", b =>
                 {
-                    b.HasOne("Inventory.Api.Aggregates.Wholesaler", null)
-                        .WithMany("Products")
-                        .HasForeignKey("WholesalerId");
-
                     b.OwnsOne("Inventory.Api.ValueObjects.ProductInfo", "ProductInfo", b1 =>
                         {
                             b1.Property<int>("ProductId")

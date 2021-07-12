@@ -27,9 +27,9 @@ namespace Inventory.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string upc)
+        public async Task<IActionResult> GetAllByProductId([FromQuery] int productId)
         {
-            var WholesalerDtos = await _mediator.Send(new WholesalerQueryGetAll(upc));
+            var WholesalerDtos = await _mediator.Send(new WholesalerQueryGetAll(productId));
             return Ok(WholesalerDtos);
         }
 
@@ -55,16 +55,16 @@ namespace Inventory.Api.Controllers
         }
 
         [HttpPost("{id}/add-products")]
-        public async Task<IActionResult> AddProducts(int id, [FromBody] List<string> upcs)
+        public async Task<IActionResult> AddProducts(int id, [FromBody] List<int> productIds)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandAddProducts(id, upcs));
+            var wholesaler = await _mediator.Send(new WholesalerCommandAddProducts(id, productIds));
             return Ok(wholesaler);
         }
 
         [HttpDelete("{id}/delete-products")]
-        public async Task<IActionResult> RemoveProduct(int id, [FromBody] List<string> upcs)
+        public async Task<IActionResult> RemoveProducts(int id, [FromBody] List<int> productIds)
         {
-            var wholesaler = await _mediator.Send(new WholesalerCommandDeleteProducts(id, upcs));
+            var wholesaler = await _mediator.Send(new WholesalerCommandDeleteProducts(id, productIds));
             return Ok(wholesaler);
         }
     }

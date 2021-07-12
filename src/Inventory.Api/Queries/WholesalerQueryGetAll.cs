@@ -12,11 +12,11 @@ namespace Inventory.Api.Queries
 {
     public class WholesalerQueryGetAll : IRequest<IEnumerable<WholesalerDto>>
     {
-        private readonly string Upc;
+        private readonly int? ProductId;
 
-        public WholesalerQueryGetAll(string upc)
+        public WholesalerQueryGetAll(int? productId)
         {
-            Upc = upc;
+            ProductId = productId;
         }
 
         public class WholesalerGetAllQueryHandler : IRequestHandler<WholesalerQueryGetAll, IEnumerable<WholesalerDto>>
@@ -32,10 +32,12 @@ namespace Inventory.Api.Queries
             {
                 var query = _context.Wholesalers.AsQueryable();
 
-                if (!string.IsNullOrEmpty(request.Upc))
+                if (request.ProductId != null)
                 {
-                    query = query.Include(x => x.Products).Where(x => x.Products.Any(y => y.ProductInfo.Upc == request.Upc));
+                    query = query.Where(x => x.ProductWholesalers.Any(y => y.ProductId == (int)request.ProductId));
                 }
+                query = query.Include(x => x.ProductWholesalers).ThenInclude(x => x.Product);
+
                 var wholesalers = await query.ToListAsync();
 
                 var wholesalerDtos = WholesalerMapper.MapToDto(wholesalers);
