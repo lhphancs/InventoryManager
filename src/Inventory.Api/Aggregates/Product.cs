@@ -26,7 +26,7 @@ namespace Inventory.Api.Aggregates
         {
             ProductInfo = new ProductInfo(productInfoDto);
 
-            ModifiedDateTime = CreatedDateTime;
+            ModifiedDateTime = DateTime.UtcNow;
         }
 
         public void RecieveIn(ProductQuantityChangeInfo productQuantityChangeInfo)

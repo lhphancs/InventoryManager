@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,13 +35,7 @@ namespace Inventory.Api.Commands
                 {
                     throw new InvalidOperationException($"ShelfId '{request.ShelfId}' not found");
                 }
-
-                var shelfProduct = shelf.ShelfProducts.FirstOrDefault(x => x.Id == request.ShelfProductId);
-
-                if (shelfProduct == null)
-                {
-                    throw new InvalidOperationException($"ShelfProductId '{request.ShelfProductId}' not found");
-                }
+                shelf.DeleteShelfProduct(request.ShelfProductId);
 
                 await _context.SaveChangesAsync(cancellationToken);
 

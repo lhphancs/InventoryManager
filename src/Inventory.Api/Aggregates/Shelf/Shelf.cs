@@ -21,7 +21,7 @@ namespace Inventory.Api.Aggregates.Shelf
         {
             ShelfInfo = new ShelfInfo(shelfInfoDto);
 
-            ModifiedDateTime = CreatedDateTime;
+            ModifiedDateTime = DateTime.UtcNow;
         }
 
         public void AddShelfProduct(int productId, int row, int position)
@@ -29,14 +29,14 @@ namespace Inventory.Api.Aggregates.Shelf
             ShelfProducts.Add(new ShelfProduct(Id, productId, row, position));
         }
 
-        public void DeleteShelfProduct(ShelfProduct shelfProduct)
+        public void DeleteShelfProduct(int productId)
         {
+            var shelfProduct = ShelfProducts.FirstOrDefault(x => x.ProductId == productId);
+            if (shelfProduct == null)
+            {
+                throw new Exception($"ProductId '{productId}' not found in shelfProducts '{Id}'");
+            }
             ShelfProducts.Remove(shelfProduct);
-        }
-
-        private List<ShelfProduct> GetExistingShelfProducts(int row, int column)
-        {
-            return ShelfProducts.Where(x => x.Row == row && x.Column == column).ToList();
         }
 
         public ShelfInfo ShelfInfo { get; private set; }
